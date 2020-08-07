@@ -15,7 +15,7 @@ else
 fi
 
 echo 'Creating New Container'
-docker run -it -d -p 8800:3000 --name $project $project:$tag
+docker run -it -d -p 80:3000 --name $project $project:$tag
 
 echo 'Waiting for container creation'
 current=$(docker container ls -aqf $filter)
