@@ -1,0 +1,23 @@
+[
+  {
+    "id": "1",
+    "image": "/assets/images/hero-slider/hero-slider-one/home1_resized.jpg",
+    "subtitle": "Purchase Record",
+    "title": "Maintian Your Burchase Record Here,",
+    "url": "/shop/left-sidebar"
+  },
+  {
+    "id": "2",
+    "image": "/assets/images/hero-slider/hero-slider-one/home2_resized.jpg",
+    "subtitle": "Add Products",
+    "title": "As a supplier add your Products",
+    "url": "/shop/left-sidebar"
+  },
+  {
+    "id": "3",
+    "image": "/assets/images/hero-slider/hero-slider-one/home2_resized.jpg",
+    "subtitle": "Get Order",
+    "title": "Get your orders generated at one place",
+    "url": "/shop/left-sidebar"
+  }
+]
