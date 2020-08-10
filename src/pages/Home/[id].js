@@ -15,6 +15,14 @@ const Home = () => {
   const [categoryData , setCategoryData] = React.useState([]);
   
  React.useEffect(() => {
+  let user = localStorage.getItem("login");
+  if (!user) {
+    router.push('/other/login-register')
+  }
+  else { 
+    router.push(`/Home/${supplierId}`)
+  }
+  
   var supplierId = localStorage.getItem("supplierId");
   async function getCategory (){
      await fetch (
