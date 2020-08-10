@@ -120,12 +120,12 @@ const CartOverlay = ({ cartData, activeStatus, getActiveStatus}) => {
                 >
                   <a>view cart</a>
                 </Link>
-                <Link
+                {/* <Link
                   href="/other/checkout"
                   as={process.env.PUBLIC_URL + "/other/checkout"}
                 >
                   <a>checkout</a>
-                </Link>
+                </Link> */}
               </div>
               {/*=======  free shipping text  =======*/}
               <p className="free-shipping-text">

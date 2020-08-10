@@ -5,32 +5,62 @@ import {
   IoLogoFacebook,
   IoLogoInstagram,
   IoLogoPinterest,
-  IoMdPerson
+  IoMdPerson,
+  IoIosPower
 } from "react-icons/io";
 
 import Link from "next/link";
+import React from 'react';
 
 const MobileMenuWidgets = () => {
+  const [ loginFlag, setLoginFlag] = React.useState(true);
+  React.useEffect(() => {
+    if(localStorage.getItem("userId")) {
+      setLoginFlag(false);
+    }
+    else {
+      setLoginFlag(true);
+    }
+  },[])
   return (
     <div className="offcanvas-mobile-menu__widgets">
       <div className="contact-widget space-mb--30">
         <ul>
-          <li>
-            <IoMdPerson />
+            {
+              !loginFlag ? 
+                (
+                <li>
+                <IoIosPower />
             <Link
               href="/other/login-register"
               as={process.env.PUBLIC_URL + "/other/login-register"}
             >
-              <a>Login / Register</a>
+              <a>Log Out</a>
             </Link>
-          </li>
+            </li>
+            )
+                  : 
+                 ( 
+                 <li>
+                 <IoMdPerson />
+                  <Link
+                    href="/other/login-register"
+                    as={process.env.PUBLIC_URL + "/other/login-register"}
+                  >
+                    <a>Login / Register</a>
+                  </Link>
+                  </li>
+                 )
+                
+             
+            }
           <li>
             <IoIosPhonePortrait />
-            <a href="tel://12452456012">(1245) 2456 012 </a>
+            <a href="tel://7204687621">(7204) 6876 21 </a>
           </li>
           <li>
             <IoMdMail />
-            <a href="mailto:info@yourdomain.com">info@yourdomain.com</a>
+            <a href="mailto:contact@dukandar.io">contact@dukandar.io</a>
           </li>
         </ul>
       </div>

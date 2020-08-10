@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { useToasts } from "react-toast-notifications";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
@@ -87,6 +87,13 @@ const Cart = () => {
       addToast("Failed to Delete from Cart", { appearance: "error", autoDismiss: true });
     })
   }
+
+  const proceedCheckout = () => {
+    localStorage.removeItem("cartItem");
+    let string = window.location.origin + `/`;
+            window.open(string, "_self");
+  }
+
   return (
     <LayoutTwo>
       {/* breadcrumb */}
@@ -260,14 +267,14 @@ const Cart = () => {
                     </tbody>
                   </table>
                   <div className="cart-calculation-button text-center">
-                    <Link
-                      href="/other/checkout"
-                      as={process.env.PUBLIC_URL + "/other/checkout"}
-                    >
-                      <a className="lezada-button lezada-button--medium">
+                      <button 
+                      onClick={(event) => {
+                        event.preventDefault();
+                        proceedCheckout();
+                      }}
+                      className="lezada-button lezada-button--medium">
                         proceed to checkout
-                      </a>
-                    </Link>
+                      </button>
                   </div>
                 </div>
               </Col>

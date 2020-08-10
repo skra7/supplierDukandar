@@ -31,6 +31,8 @@ const HeaderOne = ({ aboutOverlay }) => {
   );
   const [cartData, setCartData] = useState([]);
 
+  const [ loginFlag, setLoginFlag] = React.useState(true);
+
   useEffect(() => {
     const header = document.querySelector("header");
     setHeaderTop(header.offsetTop);
@@ -38,7 +40,12 @@ const HeaderOne = ({ aboutOverlay }) => {
     const interval = setInterval(() => {
       setCartData(JSON.parse(localStorage.getItem("cartItem"))|| []);
     }, 1000);
-    
+    if(localStorage.getItem("userId")) {
+      setLoginFlag(false);
+    }
+    else {
+      setLoginFlag(true);
+    }
     window.addEventListener("scroll", handleScroll);
     scroll > headerTop
       ? (document.body.style.paddingTop = `${headerHeight}px`)
@@ -60,6 +67,9 @@ const HeaderOne = ({ aboutOverlay }) => {
           window.open(string, "_self");
   };
 
+  if(!loginFlag) {
+
+  
   return (
     <Fragment>
       <header
@@ -120,7 +130,7 @@ const HeaderOne = ({ aboutOverlay }) => {
                       <IoIosPower />
                   </Button>
                 </li>
-                <li>
+                {/* <li>
                   <button
                     onClick={() => {
                       setOffCanvasWishlistActive(true);
@@ -129,7 +139,7 @@ const HeaderOne = ({ aboutOverlay }) => {
                         .classList.add("overflow-hidden");
                     }}
                   >
-                    <IoIosHeartEmpty />
+                    <IoIosHeartEmpty /> */}
                     {/* {wishlistItems.length >= 1 ? (
                       <span className="count">
                         {wishlistItems.length ? wishlistItems.length : ""}
@@ -137,8 +147,8 @@ const HeaderOne = ({ aboutOverlay }) => {
                     ) : (
                       ""
                     )} */}
-                  </button>
-                </li>
+                  {/* </button>
+                </li> */}
                 <li>
                   <button
                     onClick={() => {
@@ -161,23 +171,17 @@ const HeaderOne = ({ aboutOverlay }) => {
               </ul>
 
               <ul className="d-block d-lg-none">
-                <li>
+                {/* <li>
                   <Link
                     href="/other/wishlist"
                     as={process.env.PUBLIC_URL + "/other/wishlist"}
                   >
                     <a>
                       <IoIosHeartEmpty />
-                      {/* {wishlistItems.length >= 1 ? (
-                        <span className="count">
-                          {wishlistItems.length ? wishlistItems.length : ""}
-                        </span>
-                      ) : (
-                        ""
-                      )} */}
+                      
                     </a>
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link
                     href="/other/cart"
@@ -240,6 +244,114 @@ const HeaderOne = ({ aboutOverlay }) => {
       />
     </Fragment>
   );
+    }
+    else {
+      return (
+        <Fragment>
+          <header
+            className={`topbar-shadow ${scroll > headerTop ? "is-sticky" : ""}`}
+          >
+            <Container className="wide">
+              <div className="header-content d-flex align-items-center justify-content-between position-relative space-py-mobile-only--30">
+                {/* logo */}
+                <div className="header-content__logo d-flex align-items-center space-pr--15">
+                  <button
+                    onClick={() => {
+                      setOffCanvasAboutActive(true);
+                      document
+                        .querySelector("body")
+                        .classList.add("overflow-hidden");
+                    }}
+                    className={`${
+                      aboutOverlay === false
+                        ? "d-none"
+                        : "about-overlay-trigger d-none d-lg-block"
+                    }`}
+                  >
+                    <IoIosMenu />
+                  </button>
+                  <Link href="/" as={process.env.PUBLIC_URL + "/"}>
+                    <a>
+                      <img
+                        src={process.env.PUBLIC_URL + "/assets/images/icon.jpg"}
+                        className="img-fluid"
+                        alt=""
+                      />
+                    </a>
+                  </Link>
+                </div>
+    
+                {/* navigation */}
+                <Navigation />
+    
+                {/* icons */}
+                <div className="header-content__icons space-pl--15">
+                  <ul className="d-none d-lg-block">
+                    <li>
+                      <button
+                        onClick={() => {
+                          setOffCanvasSearchActive(true);
+                          document
+                            .querySelector("body")
+                            .classList.add("overflow-hidden");
+                        }}
+                      >
+                        <IoIosSearch />
+                      </button>
+                    </li>
+                    <li>
+                      <Link
+                        href="/other/login-register"
+                        as={process.env.PUBLIC_URL + "/other/login-register"}
+                      >
+                        <IoMdPerson />
+                      </Link>
+                    </li>
+                   </ul>
+                   <ul className="d-block d-lg-none">
+                
+                <li>
+                  <button onClick={() => setOffCanvasMobileMenuActive(true)}>
+                    <IoIosMenu />
+                  </button>
+                </li>
+              </ul>
+      </div>
+              </div>
+            </Container>
+          </header>
+    
+         {/* about overlay */}
+          {/* {aboutOverlay === false ? (
+            ""
+          ) : (
+            <AboutOverlay
+              activeStatus={offCanvasAboutActive}
+              getActiveStatus={setOffCanvasAboutActive}
+            />
+          )} */}
+          {/* search overlay */}
+          {/* <SearchOverlay
+            activeStatus={offCanvasSearchActive}
+            getActiveStatus={setOffCanvasSearchActive}
+          /> */}
+    
+          {/* cart overlay */}
+         
+    
+          {/* wishlist overlay */}
+          {/* <WishlistOverlay
+            activeStatus={offCanvasWishlistActive}
+            getActiveStatus={setOffCanvasWishlistActive}
+          /> */}
+          {/* Mobile Menu */}
+          <MobileMenu
+            activeStatus={offCanvasMobileMenuActive}
+            getActiveStatus={setOffCanvasMobileMenuActive}
+          />
+        </Fragment>
+      );
+    }
 };
 
 

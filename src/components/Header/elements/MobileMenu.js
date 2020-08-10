@@ -1,5 +1,4 @@
 import { IoIosClose } from "react-icons/io";
-import MobileMenuSearch from "./MobileMenuSearch";
 import MobileMenuNav from "./MobileMenuNav";
 import MobileMenuWidgets from "./MobileMenuWidgets";
 
@@ -20,12 +19,12 @@ const MobileMenu = ({ activeStatus, getActiveStatus }) => {
         <div className="offcanvas-mobile-menu__content-wrapper">
           <div className="offcanvas-mobile-menu__content">
             {/* mobile search */}
-            <MobileMenuSearch />
+            {/* <MobileMenuSearch /> */}
 
             {/* mobile nav menu */}
-            <MobileMenuNav getActiveStatus={getActiveStatus} />
+            {/* <MobileMenuNav getActiveStatus={getActiveStatus} /> */}
 
-            <div className="offcanvas-mobile-menu__middle">
+            {/* <div className="offcanvas-mobile-menu__middle">
               <div className="lang-curr-style space-mb--20">
                 <span className="title">Choose Language </span>
                 <select>
@@ -42,7 +41,7 @@ const MobileMenu = ({ activeStatus, getActiveStatus }) => {
                   <option value="GBP">GBP</option>
                 </select>
               </div>
-            </div>
+            </div> */}
 
             {/* mobile widgets */}
             <MobileMenuWidgets />

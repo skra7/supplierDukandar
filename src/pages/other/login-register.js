@@ -59,6 +59,7 @@ const LoginRegister = () => {
       .post(apiBaseUrl, data, headers , { validateStatus: false })
       .then((response) => {
         //setOTPenabled(true);
+        // Add get request for all cart item in Login...
         var supplierId = localStorage.getItem("supplierId");
         localStorage.setItem("userId", response.data.data._id);
         localStorage.setItem("userToken", response.data.data.token);

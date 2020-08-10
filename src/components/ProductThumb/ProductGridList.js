@@ -124,8 +124,8 @@ const ProductGridList = ({
               )}
               <span className="hot">New</span>
             </div>
-            <div className="product-grid__floating-icons">
-              {/* add to wishlist */}
+            {/* <div className="product-grid__floating-icons">
+
               <Tooltip
                 title={
                   wishlistItem !== undefined
@@ -141,10 +141,10 @@ const ProductGridList = ({
                
               </Tooltip>
 
-              {/* add to compare */}
+              
 
-              {/* quick view */}
-            </div>
+              
+            </div> */}
           </div>
 
           {/*=======  single product content  =======*/}
@@ -156,8 +156,8 @@ const ProductGridList = ({
               {/* add to cart */}
               
             </div>
-            <div className="product-grid__floating-icons">
-              {/* add to wishlist */}
+            {/* <div className="product-grid__floating-icons">
+             
               <Tooltip
                 title={
                   wishlistItem !== undefined
@@ -183,7 +183,7 @@ const ProductGridList = ({
                   <IoIosHeartEmpty />
                 </button>
               </Tooltip>
-              </div>
+              </div> */}
             
             <div className="price">
               {discount > 0  ? (
