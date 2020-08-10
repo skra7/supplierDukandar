@@ -29,7 +29,7 @@ const Cart = () => {
       "supplierProductId" : product.supplierProductId,
       "value" : value
     };
-    var apiBaseUrl = `http://localhost:4000/cart/updateCartQuantity`
+    var apiBaseUrl = `http://3.7.238.54:4000/cart/updateCartQuantity`
 
     axios
     .post(apiBaseUrl, data, {headers : headers} , { validateStatus: false })
@@ -54,7 +54,7 @@ const Cart = () => {
     var data = {
       "supplierProductId" : product.supplierProductId 
     }
-    var apiBaseUrl = "http://localhost:4000/cart/deleteuserCart"
+    var apiBaseUrl = "http://3.7.238.54:4000/cart/deleteuserCart"
     axios
     .post(apiBaseUrl, data, {headers : headers} , { validateStatus: false })
     .then((response) => {
@@ -76,7 +76,7 @@ const Cart = () => {
         Authorization : token
       }
    
-    var apiBaseUrl = "http://localhost:4000/cart/deleteallfromCart"
+    var apiBaseUrl = "http://3.7.238.54:4000/cart/deleteallfromCart"
     axios
     .post(apiBaseUrl,  {headers : headers} , { validateStatus: false })
     .then((response) => {

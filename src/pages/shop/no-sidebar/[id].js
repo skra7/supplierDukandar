@@ -20,7 +20,7 @@ const NoSidebar = () => {
   useEffect(() => {
     async function getProduct (){
       await fetch (
-       `http://localhost:4000/supplierProductbyId?id=${id}`,
+       `http://3.7.238.54:4000/supplierProductbyId?id=${id}`,
        {
          method: 'GET',
          headers: new Headers({

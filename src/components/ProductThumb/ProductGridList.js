@@ -21,7 +21,7 @@ const ProductGridList = ({
 }) => {
   const { addToast } = useToasts();
   async function productCart(product) {
-    var apiBaseUrl = `http://localhost:4000/cart/userCart`;
+    var apiBaseUrl = `http://3.7.238.54:4000/cart/userCart`;
     var token = localStorage.getItem("userId");
     var cartItem = [];
      cartItem = JSON.parse(localStorage.getItem("cartItem")) || [];
@@ -58,7 +58,7 @@ const ProductGridList = ({
   }
 
   async function productWishlist(product) {
-    var apiBaseUrl = `http://localhost:4000/wishlist/userWishlist`;
+    var apiBaseUrl = `http://3.7.238.54:4000/wishlist/userWishlist`;
     var token = localStorage.getItem("userId");
     var headers = {
       "Content-Type": "application/json",

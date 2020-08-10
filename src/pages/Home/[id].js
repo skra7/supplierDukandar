@@ -18,7 +18,7 @@ const Home = () => {
   var supplierId = localStorage.getItem("supplierId");
   async function getCategory (){
      await fetch (
-      `http://localhost:4000/supplierCategorybyId?id=${supplierId}`,
+      `http://3.7.238.54:4000/supplierCategorybyId?id=${supplierId}`,
       {
         method: 'GET',
         headers: new Headers({

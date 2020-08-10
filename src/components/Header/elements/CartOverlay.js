@@ -20,7 +20,7 @@ const CartOverlay = ({ cartData, activeStatus, getActiveStatus}) => {
     var data = {
       "supplierProductId" : product.supplierProductId 
     }
-    var apiBaseUrl = "http://localhost:4000/cart/deleteuserCart"
+    var apiBaseUrl = "http://3.7.238.54:4000/cart/deleteuserCart"
     axios
     .post(apiBaseUrl, data, {headers : headers} , { validateStatus: false })
     .then((response) => {
