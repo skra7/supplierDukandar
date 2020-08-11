@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Modal, Spinner } from "react-bootstrap";
 import { useToasts } from "react-toast-notifications";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
@@ -13,6 +13,7 @@ const Cart = () => {
   const [quantityCount] = useState(1);
   const [token , settoken] = useState('');
   const { addToast } = useToasts();
+  const [show , setShow] = useState(false);
   let cartTotalPrice = 0;
 
   useEffect(() => {
@@ -44,7 +45,12 @@ const Cart = () => {
    
   }
 
+  const handleClose = () => {
+    setShow(false);
+  }
+
   async function proceedCheckout() {
+    setShow(true);
     let user = localStorage.getItem("login");
     let supplierId = localStorage.getItem("supplierId");
     var productList = [];
@@ -103,11 +109,13 @@ const Cart = () => {
     await axios
       .post((proxyurl + apiBaseUrl),  data , {headers : headers}, {validateStatus : false})
       .then((response) => {
+        setShow(false);
         localStorage.removeItem("cartItem");
         router.push('/other/showCheckout');
         addToast("Cart Checkout Done", { appearance: "success", autoDismiss: true });
       })
       .catch((err) => {
+        setShow(false);
         console.log(err);
         addToast("Failed to Checkout", { appearance: "error", autoDismiss: true });
       });
@@ -324,6 +332,16 @@ const Cart = () => {
           )}
         </Container>
       </div>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Title><span>Please wait while we submit your order....</span>
+        <span><Spinner animation="border" variant="success" /></span>
+        </Modal.Title>
+      </Modal>
     </LayoutTwo>
   );
 };
