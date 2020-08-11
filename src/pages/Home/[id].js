@@ -13,10 +13,31 @@ const Home = () => {
   const { id } = router.query;
   const { pathname } = router.pathname;
   const [categoryData , setCategoryData] = React.useState([]);
-  
+  const [ supplierData, setSupplierData] = React.useState([]);
  React.useEffect(() => {
   console.log("The Id of supplier is", id);
   var supplierId = localStorage.setItem("supplierId", id);
+  async function getSupplierInfo() {
+    await fetch (
+      `http://3.7.238.54:4000/supplierInfo?id=${id}`,
+      {
+        method: 'GET',
+        headers: new Headers({
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*"
+        })
+      }).then(r => r.json())
+      .then(r => {
+        console.log("Response is", r.data.businessDetails);
+        setSupplierData(r.data.businessDetails)
+        localStorage.setItem("supplierBusinessDetails",  r.data.businessDetails)
+      })
+      .catch(err =>{
+        console.log(err);
+      }
+    )
+  }
+  getSupplierInfo();
   async function getCategory (){
      await fetch (
       `http://3.7.238.54:4000/supplierCategorybyId?id=${id}`,
@@ -36,14 +57,15 @@ const Home = () => {
     )
   }
   getCategory();
-  console.log("Category List is", categoryData[0]);
+  
+  
 },[]);
   
   return (
     <LayoutOne aboutOverlay={true}>
       {/* hero slider */}
       <BreadcrumbOne
-        pageTitle="Home"
+        pageTitle={supplierData.businessName}
         backgroundImage="/assets/images/backgrounds/cartbg.jpg"
       >
         <ul className="breadcrumb__list">

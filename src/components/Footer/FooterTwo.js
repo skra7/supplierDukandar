@@ -44,7 +44,7 @@ const FooterTwo = () => {
               <a href="https://www.supplier.dukandar.io" target="_blank">
                 Dukandar
               </a>
-              <span>All Rights Reserved </span>
+              <span>All Rights Reserved</span>
             </div>
           </Col>
 
@@ -61,61 +61,12 @@ const FooterTwo = () => {
                 <li>
                   <a href="#">Contact</a>
                 </li>
-                <li>
-                  <a href="#">Orders tracking</a>
-                </li>
               </ul>
             </nav>
           </Col>
 
-          <Col className="footer-single-widget space-mb--50">
-            <h5 className="footer-single-widget__title">USEFUL LINKS</h5>
-            <nav className="footer-single-widget__nav">
-              <ul>
-                <li>
-                  <a href="#">Returns</a>
-                </li>
-                <li>
-                  <a href="#">Support Policy</a>
-                </li>
-                <li>
-                  <a href="#">Size guide</a>
-                </li>
-                <li>
-                  <a href="#">FAQs</a>
-                </li>
-              </ul>
-            </nav>
-          </Col>
-
-          <Col className="footer-single-widget space-mb--50">
-            <h5 className="footer-single-widget__title">FOLLOW US ON</h5>
-            <nav className="footer-single-widget__nav footer-single-widget__nav--social">
-              <ul>
-                <li>
-                  <a href="https://www.twitter.com">
-                    <FaTwitter /> Twitter
-                  </a>
-                </li>
-                <li>
-                  <a href="https://www.facebook.com">
-                    <FaFacebookF /> Facebook
-                  </a>
-                </li>
-                <li>
-                  <a href="https://www.instagram.com">
-                    <FaInstagram /> Instagram
-                  </a>
-                </li>
-                <li>
-                  <a href="https://www.youtube.com">
-                    <FaYoutube /> Youtube
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </Col>
-
+         
+         
           <Col className="footer-single-widget space-mb--50">
             <div className="footer-subscribe-widget">
               <h2 className="footer-subscribe-widget__title">Download Dukandar App</h2>
