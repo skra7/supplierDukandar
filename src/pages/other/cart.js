@@ -11,6 +11,7 @@ const Cart = () => {
   const router = useRouter();
   const [cartData, setCartData] = useState([]);
   const [quantityCount] = useState(1);
+  const [token , settoken] = useState('');
   const { addToast } = useToasts();
   let cartTotalPrice = 0;
 
@@ -18,7 +19,7 @@ const Cart = () => {
     setInterval(() => {
       setCartData(JSON.parse(localStorage.getItem("cartItem")) || []);
     }, 1000);
-    
+    settoken(localStorage.getItem("userToken") || '');
     document.querySelector("body").classList.remove("overflow-hidden");
   },[]);
 
@@ -45,7 +46,6 @@ const Cart = () => {
 
   async function proceedCheckout() {
     let user = localStorage.getItem("login");
-    let token = localStorage.getItem("userToken");
     let supplierId = localStorage.getItem("supplierId");
     var productList = [];
     cartData.map((product) => {
@@ -66,8 +66,9 @@ const Cart = () => {
     const headers = {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
-      "authorization" : token
+      Authorization : token
     };
+    console.log("Headers are", headers);
     var data = {
       sellerId : supplierId,
       productList : productList,
@@ -78,8 +79,29 @@ const Cart = () => {
       notes : "Online"
     }
     var apiBaseUrl = "http://api.dukandar.io/v1/PurchaseOrder";
+  //   await fetch(apiBaseUrl, {
+  //     method: 'POST',
+  //     crossDomain: true,
+  //     mode: 'no-cors',
+  //     body: data,
+  //     headers: {
+  //       'Authorization': token,
+  //       'Accept': 'application/json',
+  //       'Content-Type': 'application/json'
+  //     }
+  //  })
+  //    .then(response =>{
+  //         localStorage.removeItem("cartItem");
+  //       router.push('/other/showCheckout');
+  //       addToast("Cart Checkout Done", { appearance: "success", autoDismiss: true });
+  //    })
+  //    .catch(err => {
+  //     console.log(err);
+  //       addToast("Failed to Checkout", { appearance: "error", autoDismiss: true });
+  //     });
+  const proxyurl = "https://cors-anywhere.herokuapp.com/";
     await axios
-      .post(apiBaseUrl,  data , headers, {validateStatus : false})
+      .post((proxyurl + apiBaseUrl),  data , {headers : headers}, {validateStatus : false})
       .then((response) => {
         localStorage.removeItem("cartItem");
         router.push('/other/showCheckout');

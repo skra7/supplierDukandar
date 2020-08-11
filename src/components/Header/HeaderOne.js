@@ -62,6 +62,7 @@ const HeaderOne = ({ aboutOverlay }) => {
     localStorage.removeItem("login");
     localStorage.removeItem("userId");
     localStorage.removeItem("supplierId");
+    localStorage.removeItem("userToken");
     let string = window.location.origin + "/";
           window.open(string, "_self");
   };
