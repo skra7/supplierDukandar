@@ -3,9 +3,9 @@ import { Container, Row, Col } from "react-bootstrap";
 import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
 import { IoIosArrowRoundUp } from "react-icons/io";
 import { animateScroll } from "react-scroll";
-import { Tooltip } from "react-tippy";
+import { SubscribeEmailTwo } from "../Newsletter";
 
-const FooterOne = () => {
+const FooterTwo = () => {
   const [scroll, setScroll] = useState(0);
   const [top, setTop] = useState(0);
 
@@ -24,111 +24,118 @@ const FooterOne = () => {
   const handleScroll = () => {
     setScroll(window.scrollY);
   };
-
   return (
-    <footer className="space-pt--100 space-pb--100 bg-color--grey">
-      <Container>
+    <footer className="bg-color--grey space-pt--100 space-pb--50">
+      <Container className="wide">
         <Row>
-          <Col lg={9} md={12} className="space-mb-mobile-only--50">
-            {/*=======  footer navigation  =======*/}
-            <nav className="footer-nav-container footer-nav-container--horizontal space-mb--20">
+          <Col className="footer-single-widget space-mb--50">
+            {/* logo */}
+            <div className="logo space-mb--35">
+              <img
+                src={process.env.PUBLIC_URL + "/assets/images/icon.jpg"}
+                className="img-fluid"
+                alt=""
+              />
+            </div>
+
+            {/*=======  copyright text  =======*/}
+            <div className="footer-single-widget__copyright">
+              &copy; {new Date().getFullYear() + " "}
+              <a href="https://www.supplier.dukandar.io" target="_blank">
+                Dukandar
+              </a>
+              <span>All Rights Reserved</span>
+            </div>
+          </Col>
+
+          <Col className="footer-single-widget space-mb--50">
+            <h5 className="footer-single-widget__title">ABOUT</h5>
+            <nav className="footer-single-widget__nav">
               <ul>
                 <li>
-                  <a href="#">ABOUT US</a>
+                  <a href="#">About us</a>
                 </li>
                 <li>
-                  <a href="#">STORE LOCATION</a>
+                  <a href="#">Store location</a>
                 </li>
                 <li>
-                  <a href="#">CONTACT</a>
+                  <a href="#">Contact</a>
                 </li>
                 <li>
-                  <a href="#">SUPPORT</a>
-                </li>
-                <li>
-                  <a href="#">POLICY</a>
-                </li>
-                <li>
-                  <a href="#">FAQS</a>
+                  <a href="#">Orders tracking</a>
                 </li>
               </ul>
             </nav>
-
-            {/*=======  copyright text  =======*/}
-            <div className="footer-copyright-text">
-              &copy; {new Date().getFullYear() + " "}
-              <a href="https://www.hasthemes.com" target="_blank">
-                Dukandar
-              </a>
-              . All Rights Reserved | <span>(+91) 7204687621</span> |
-              contact@dukandar.io
-            </div>
           </Col>
-          <Col lg={3} md={12} className="text-left text-lg-right">
-            {/*=======  social icons  =======*/}
-            <div className="footer-social-icons space-mb--20">
+
+          <Col className="footer-single-widget space-mb--50">
+            <h5 className="footer-single-widget__title">USEFUL LINKS</h5>
+            <nav className="footer-single-widget__nav">
               <ul>
                 <li>
-                  <Tooltip
-                    title="Twitter"
-                    position="top"
-                    trigger="mouseenter"
-                    animation="shift"
-                    arrow={true}
-                    duration={200}
-                  >
-                    <a href="https://www.twitter.com" target="_blank">
-                      <FaTwitter />
-                    </a>
-                  </Tooltip>
+                  <a href="#">Returns</a>
                 </li>
                 <li>
-                  <Tooltip
-                    title="Facebook"
-                    position="top"
-                    trigger="mouseenter"
-                    animation="shift"
-                    arrow={true}
-                    duration={200}
-                  >
-                    <a href="https://www.facebook.com" target="_blank">
-                      <FaFacebookF />
-                    </a>
-                  </Tooltip>
+                  <a href="#">Support Policy</a>
                 </li>
                 <li>
-                  <Tooltip
-                    title="Instagram"
-                    position="top"
-                    trigger="mouseenter"
-                    animation="shift"
-                    arrow={true}
-                    duration={200}
-                  >
-                    <a href="https://www.instagram.com" target="_blank">
-                      <FaInstagram />
-                    </a>
-                  </Tooltip>
+                  <a href="#">Size guide</a>
                 </li>
                 <li>
-                  <Tooltip
-                    title="Youtube"
-                    position="top"
-                    trigger="mouseenter"
-                    animation="shift"
-                    arrow={true}
-                    duration={200}
-                  >
-                    <a href="https://www.youtube.com" target="_blank">
-                      <FaYoutube />
-                    </a>
-                  </Tooltip>
+                  <a href="#">FAQs</a>
                 </li>
               </ul>
-            </div>
+            </nav>
+          </Col>
 
-            {/*=======  payment icon  =======*/}
-            
+          <Col className="footer-single-widget space-mb--50">
+            <h5 className="footer-single-widget__title">FOLLOW US ON</h5>
+            <nav className="footer-single-widget__nav footer-single-widget__nav--social">
+              <ul>
+                <li>
+                  <a href="https://www.twitter.com">
+                    <FaTwitter /> Twitter
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.facebook.com">
+                    <FaFacebookF /> Facebook
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.instagram.com">
+                    <FaInstagram /> Instagram
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.youtube.com">
+                    <FaYoutube /> Youtube
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </Col>
+
+          <Col className="footer-single-widget space-mb--50">
+            <div className="footer-subscribe-widget">
+              <h2 className="footer-subscribe-widget__title">Download Dukandar App</h2>
+              <p className="footer-subscribe-widget__subtitle">
+              Manage Supplier Khata & Start Collecting Orders Online
+              </p>
+              <div className="mc-form position-relative">
+                
+                <a className="button" href="https://bit.ly/GetDukandar">
+                <img
+              src={"/assets/images/googleplay.png"}
+              className="img-fluid"
+              width="200"
+              height="50"
+              alt="Play Store"
+            />
+                </a>
+              </div>
+              
+            </div>
           </Col>
         </Row>
       </Container>
@@ -142,4 +149,4 @@ const FooterOne = () => {
   );
 };
 
-export default FooterOne;
+export default FooterTwo;

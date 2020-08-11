@@ -6,7 +6,9 @@ import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { IoIosClose, IoMdCart } from "react-icons/io";
 import axios from 'axios';
+import { useRouter } from 'next/router';
 const Cart = () => {
+  const router = useRouter();
   const [cartData, setCartData] = useState([]);
   const [quantityCount] = useState(1);
   const { addToast } = useToasts();
@@ -21,77 +23,60 @@ const Cart = () => {
   },[]);
 
   const cartValue = (value, product, index) => {
-    var headers = {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*"
-    };
-    var data = {
-      "supplierProductId" : product.supplierProductId,
-      "value" : value
-    };
-    var apiBaseUrl = `http://3.7.238.54:4000/cart/updateCartQuantity`
-
-    axios
-    .post(apiBaseUrl, data, {headers : headers} , { validateStatus: false })
-    .then((response) => {
       cartData[index].quantity = cartData[index].quantity + value;
     localStorage.setItem('cartItem', JSON.stringify(cartData));
-      
-    })
-    .catch((err) => {
-      console.log("Error coming in is",err);
-    })
-
+    
   }
 
   const deleteFromCart = (product, index) => {
-    var token = localStorage.getItem("userId");
-      var headers = {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        Authorization : token
-      }
-    var data = {
-      "supplierProductId" : product.supplierProductId 
-    }
-    var apiBaseUrl = "http://3.7.238.54:4000/cart/deleteuserCart"
-    axios
-    .post(apiBaseUrl, data, {headers : headers} , { validateStatus: false })
-    .then((response) => {
+   
       cartData.splice(index,1);
     localStorage.setItem('cartItem', JSON.stringify(cartData));
     addToast("Deleted from Cart", { appearance: "warning", autoDismiss: true });
-    })
-    .catch((err) => {
-      addToast("Failed to Delete from Cart", { appearance: "error", autoDismiss: true });
-    })
+    
   }
 
   
   const deleteAllFromCart = () => {
-    var token = localStorage.getItem("userId");
-      var headers = {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        Authorization : token
-      }
-   
-    var apiBaseUrl = "http://3.7.238.54:4000/cart/deleteallfromCart"
-    axios
-    .post(apiBaseUrl,  {headers : headers} , { validateStatus: false })
-    .then((response) => {
      localStorage.removeItem("cartItem");
     addToast("Deleted everything from Cart", { appearance: "warning", autoDismiss: true });
-    })
-    .catch((err) => {
-      addToast("Failed to Delete from Cart", { appearance: "error", autoDismiss: true });
-    })
+   
   }
 
   const proceedCheckout = () => {
-    localStorage.removeItem("cartItem");
-    let string = window.location.origin + `/`;
-            window.open(string, "_self");
+    let user = localStorage.getItem("login");
+    let token = localStorage.getItem("token");
+    let supplierId = localStorage.getItem("supplierId");
+    if(!user) {
+      router.push({pathname : '/other/login-register',
+    query : { name : 'fromCheckout'}
+    });
+    }
+   else {
+    var headers = {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Authorization" : token
+    };
+    var data = {
+      sellerId : supplierId,
+      productList : cartData,
+      paidAmount : 0,
+      description : "Purchased Online",
+      paymentMode : "Cash"
+    }
+    var apiBaseUrl = "http://api.dukandar.io/v1/PurchaseOrder";
+    axios
+      .post(apiBaseUrl, data, headers , { validateStatus: false })
+      .then((response) => {
+        localStorage.removeItem("cartItem");
+        router.push('/other/showCheckout');
+        addToast("Cart Checkout Done", { appearance: "success", autoDismiss: true });
+      })
+      .catch((err) => {
+        addToast("Failed to Checkout", { appearance: "error", autoDismiss: true });
+      });
+   }
   }
 
   return (

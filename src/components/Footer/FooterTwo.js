@@ -32,7 +32,7 @@ const FooterTwo = () => {
             {/* logo */}
             <div className="logo space-mb--35">
               <img
-                src={process.env.PUBLIC_URL + "/assets/images/logo.png"}
+                src={process.env.PUBLIC_URL + "/assets/images/icon.jpg"}
                 className="img-fluid"
                 alt=""
               />
@@ -41,10 +41,10 @@ const FooterTwo = () => {
             {/*=======  copyright text  =======*/}
             <div className="footer-single-widget__copyright">
               &copy; {new Date().getFullYear() + " "}
-              <a href="https://www.hasthemes.com" target="_blank">
-                lezada
+              <a href="https://www.supplier.dukandar.io" target="_blank">
+                Dukandar
               </a>
-              <span>All Rights Reserved</span>
+              <span>All Rights Reserved </span>
             </div>
           </Col>
 
@@ -118,12 +118,23 @@ const FooterTwo = () => {
 
           <Col className="footer-single-widget space-mb--50">
             <div className="footer-subscribe-widget">
-              <h2 className="footer-subscribe-widget__title">Subscribe.</h2>
+              <h2 className="footer-subscribe-widget__title">Download Dukandar App</h2>
               <p className="footer-subscribe-widget__subtitle">
-                Subscribe to our newsletter to receive news on update.
+              Manage Supplier Khata & Start Collecting Orders Online
               </p>
-              {/* email subscription */}
-              <SubscribeEmailTwo mailchimpUrl="https://devitems.us11.list-manage.com/subscribe/post?u=6bbb9b6f5827bd842d9640c82&amp;id=05d85f18ef" />
+              <div className="mc-form position-relative">
+                
+                <a className="button" href="https://bit.ly/GetDukandar">
+                <img
+              src={"/assets/images/googleplay.png"}
+              className="img-fluid"
+              width="200"
+              height="50"
+              alt="Play Store"
+            />
+                </a>
+              </div>
+              
             </div>
           </Col>
         </Row>

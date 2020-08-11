@@ -67,7 +67,6 @@ const HeaderOne = ({ aboutOverlay }) => {
           window.open(string, "_self");
   };
 
-  if(!loginFlag) {
 
   
   return (
@@ -244,115 +243,7 @@ const HeaderOne = ({ aboutOverlay }) => {
       />
     </Fragment>
   );
-    }
-    else {
-      return (
-        <Fragment>
-          <header
-            className={`topbar-shadow ${scroll > headerTop ? "is-sticky" : ""}`}
-          >
-            <Container className="wide">
-              <div className="header-content d-flex align-items-center justify-content-between position-relative space-py-mobile-only--30">
-                {/* logo */}
-                <div className="header-content__logo d-flex align-items-center space-pr--15">
-                  <button
-                    onClick={() => {
-                      setOffCanvasAboutActive(true);
-                      document
-                        .querySelector("body")
-                        .classList.add("overflow-hidden");
-                    }}
-                    className={`${
-                      aboutOverlay === false
-                        ? "d-none"
-                        : "about-overlay-trigger d-none d-lg-block"
-                    }`}
-                  >
-                    <IoIosMenu />
-                  </button>
-                  <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-                    <a>
-                      <img
-                        src={process.env.PUBLIC_URL + "/assets/images/icon.jpg"}
-                        className="img-fluid"
-                        alt=""
-                      />
-                    </a>
-                  </Link>
-                </div>
-    
-                {/* navigation */}
-                <Navigation />
-    
-                {/* icons */}
-                <div className="header-content__icons space-pl--15">
-                  <ul className="d-none d-lg-block">
-                    <li>
-                      <button
-                        onClick={() => {
-                          setOffCanvasSearchActive(true);
-                          document
-                            .querySelector("body")
-                            .classList.add("overflow-hidden");
-                        }}
-                      >
-                        <IoIosSearch />
-                      </button>
-                    </li>
-                    <li>
-                      <Link
-                        href="/other/login-register"
-                        as={process.env.PUBLIC_URL + "/other/login-register"}
-                      >
-                        <IoMdPerson />
-                      </Link>
-                    </li>
-                   </ul>
-                   <ul className="d-block d-lg-none">
-                
-                <li>
-                  <button onClick={() => setOffCanvasMobileMenuActive(true)}>
-                    <IoIosMenu />
-                  </button>
-                </li>
-              </ul>
-      </div>
-              </div>
-            </Container>
-          </header>
-    
-         {/* about overlay */}
-          {/* {aboutOverlay === false ? (
-            ""
-          ) : (
-            <AboutOverlay
-              activeStatus={offCanvasAboutActive}
-              getActiveStatus={setOffCanvasAboutActive}
-            />
-          )} */}
-          {/* search overlay */}
-          {/* <SearchOverlay
-            activeStatus={offCanvasSearchActive}
-            getActiveStatus={setOffCanvasSearchActive}
-          /> */}
-    
-          {/* cart overlay */}
-         
-    
-          {/* wishlist overlay */}
-          {/* <WishlistOverlay
-            activeStatus={offCanvasWishlistActive}
-            getActiveStatus={setOffCanvasWishlistActive}
-          /> */}
-          {/* Mobile Menu */}
-          <MobileMenu
-            activeStatus={offCanvasMobileMenuActive}
-            getActiveStatus={setOffCanvasMobileMenuActive}
-          />
-        </Fragment>
-      );
-    }
-};
 
+    }
 
 export default HeaderOne;

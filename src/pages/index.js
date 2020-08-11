@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 // Here you would fetch and return the user
 
 export default function Page() {
-  const router = useRouter()
+  const router = useRouter();
   const { id } = router.query;
   const { pathname } = router.pathname;
   

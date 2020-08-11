@@ -21,16 +21,8 @@ const ProductGridList = ({
 }) => {
   const { addToast } = useToasts();
   async function productCart(product) {
-    var apiBaseUrl = `http://3.7.238.54:4000/cart/userCart`;
-    var token = localStorage.getItem("userId");
     var cartItem = [];
      cartItem = JSON.parse(localStorage.getItem("cartItem")) || [];
-    console.log("The token is", token);
-    var headers = {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-      Authorization : token
-    }
     console.log("Product Id coming in is", product._id);
     var data = {
       "supplierId" : localStorage.getItem("supplierId"),
@@ -44,54 +36,47 @@ const ProductGridList = ({
       "quantity" : 1,
       "imageUrl" : product.imageUrl
     };
+    cartItem.push(data);
     console.log("The data going in is", data);
-    axios
-    .post(apiBaseUrl, data, {headers : headers} , { validateStatus: false })
-    .then((response) => {
-      cartItem.push(data);
     localStorage.setItem('cartItem', JSON.stringify(cartItem));
     addToast("Added To Cart", { appearance: "success", autoDismiss: true });
-    })
-    .catch((err) => {
-      addToast("Failed to Add to Cart", { appearance: "error", autoDismiss: true });
-    })
   }
 
-  async function productWishlist(product) {
-    var apiBaseUrl = `http://3.7.238.54:4000/wishlist/userWishlist`;
-    var token = localStorage.getItem("userId");
-    var headers = {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-      Authorization : token
-    }
-    var wishlistItem = [];
-     wishlistItem = JSON.parse(localStorage.getItem("wishlistItem")) || [];
-    var data = {
-      "supplierId" : localStorage.getItem("supplierId"),
-      "supplierCategoryId" : product.supplierCategoryId,
-      "supplierProductId" : product._id,
-      "categoryName" : product.categoryName,
-      "productName" : product.productName,
-      "description" : product.description,
-      "sellingPrice" : product.sellingPrice,
-      "originalPrice" : product.originalPrice,
-      "quantity" : 1,
-      "imageUrl" : product.imageUrl
-    };
+  // async function productWishlist(product) {
+  //   var apiBaseUrl = `http://3.7.238.54:4000/wishlist/userWishlist`;
+  //   var token = localStorage.getItem("userId");
+  //   var headers = {
+  //     "Content-Type": "application/json",
+  //     "Access-Control-Allow-Origin": "*",
+  //     Authorization : token
+  //   }
+  //   var wishlistItem = [];
+  //    wishlistItem = JSON.parse(localStorage.getItem("wishlistItem")) || [];
+  //   var data = {
+  //     "supplierId" : localStorage.getItem("supplierId"),
+  //     "supplierCategoryId" : product.supplierCategoryId,
+  //     "supplierProductId" : product._id,
+  //     "categoryName" : product.categoryName,
+  //     "productName" : product.productName,
+  //     "description" : product.description,
+  //     "sellingPrice" : product.sellingPrice,
+  //     "originalPrice" : product.originalPrice,
+  //     "quantity" : 1,
+  //     "imageUrl" : product.imageUrl
+  //   };
       
     
-    axios
-    .post(apiBaseUrl, data, {headers : headers} , { validateStatus: false })
-    .then((response) => {
-      wishlistItem.push(data);
-    localStorage.setItem('wishlistItem', JSON.stringify(wishlistItem));
-    addToast("Added To Wishlist", { appearance: "success", autoDismiss: true });
-    })
-    .catch((err) => {
-      addToast("Failed to Add to Wishlist", { appearance: "error", autoDismiss: true });
-    })
-  }
+  //   axios
+  //   .post(apiBaseUrl, data, {headers : headers} , { validateStatus: false })
+  //   .then((response) => {
+  //     wishlistItem.push(data);
+  //   localStorage.setItem('wishlistItem', JSON.stringify(wishlistItem));
+  //   addToast("Added To Wishlist", { appearance: "success", autoDismiss: true });
+  //   })
+  //   .catch((err) => {
+  //     addToast("Failed to Add to Wishlist", { appearance: "error", autoDismiss: true });
+  //   })
+  // }
 
 
   return (
@@ -103,9 +88,11 @@ const ProductGridList = ({
             <img
               src={product.imageUrl ? product.imageUrl : "/assets/images/product/product_thumbnail.jpg"}
               className="img-fluid"
+              width="200"
+              height="50"
               alt={product.name}
             />
-            <a className="image-wrap">
+            {/* <a className="image-wrap">
               {product.imageUrl.length > 1 ? (
                 <img
                   src={product.imageUrl}
@@ -115,7 +102,7 @@ const ProductGridList = ({
               ) : (
                 ""
               )}
-            </a>
+            </a> */}
             <div className="product-grid__floating-badges">
               {discount && discount > 0 ? (
                 <span className="onsale">-{discount}%</span>

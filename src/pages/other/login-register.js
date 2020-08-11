@@ -7,11 +7,12 @@ import React from "react";
 import axios from "axios";
 import { useRouter } from 'next/router';
 
-const LoginRegister = () => {
+const LoginRegister = (props) => {
   const [OTP, setOTP] = React.useState("");
   const [OTPenabled , setOTPenabled] = React.useState(false);
   const [mobileNumber, setMobileNumber] = React.useState("");
   const router = useRouter();
+  const { name } = router.query || '';
 
   const handleMobileChange = (event) => {
     setMobileNumber(event.target.value);
@@ -58,6 +59,7 @@ const LoginRegister = () => {
     axios
       .post(apiBaseUrl, data, headers , { validateStatus: false })
       .then((response) => {
+        console.log("Name of router is", name);
         //setOTPenabled(true);
         // Add get request for all cart item in Login...
         var supplierId = localStorage.getItem("supplierId");
@@ -65,6 +67,10 @@ const LoginRegister = () => {
         localStorage.setItem("userToken", response.data.data.token);
         localStorage.setItem("login", true);
           console.log("Response data in verify is", response.data.data._id);
+          if(name === 'fromCheckout') {
+            router.push('/other/cart');
+          }
+          else {
           if(supplierId) {
             let string = window.location.origin + `/Home/${supplierId}`;
             window.open(string, "_self");
@@ -74,6 +80,7 @@ const LoginRegister = () => {
             let string = window.location.origin + `/Home/${response.data.data._id}`;
             window.open(string, "_self");
           }
+        }
          
       })
       .catch((err) => {
@@ -140,6 +147,8 @@ const LoginRegister = () => {
     </LayoutTwo>
   );
 };
+
+
 
 const OTPcontainer = (props) => (
   <Col lg={12} className="space-mb--60">

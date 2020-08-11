@@ -9,24 +9,17 @@ import { useRouter } from 'next/router';
 import { BreadcrumbOne } from "../../components/Breadcrumb";
 import Link from "next/link";
 const Home = () => {
-  const router = useRouter()
+  const router = useRouter();
   const { id } = router.query;
   const { pathname } = router.pathname;
   const [categoryData , setCategoryData] = React.useState([]);
   
  React.useEffect(() => {
-  let user = localStorage.getItem("login");
-  if (!user) {
-    router.push('/other/login-register')
-  }
-  else { 
-    router.push(`/Home/${supplierId}`)
-  }
-  
-  var supplierId = localStorage.getItem("supplierId");
+  console.log("The Id of supplier is", id);
+  var supplierId = localStorage.setItem("supplierId", id);
   async function getCategory (){
      await fetch (
-      `http://3.7.238.54:4000/supplierCategorybyId?id=${supplierId}`,
+      `http://3.7.238.54:4000/supplierCategorybyId?id=${id}`,
       {
         method: 'GET',
         headers: new Headers({
