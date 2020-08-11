@@ -52,7 +52,7 @@ const Cart = () => {
       var name = product.productName;
       var qty = product.quantity;
       var unit = product.unit;
-      var price = parseFloat(product.sellingPrice).toFixed(2) * product.quantity;
+      var price = parseFloat(product.sellingPrice).toFixed(2);
       let jsonData = { name : name, qty : qty, unit : unit, price : price};
       console.log("Json data is", jsonData);
       productList.push(jsonData)
