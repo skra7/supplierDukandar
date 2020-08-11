@@ -43,37 +43,50 @@ const Cart = () => {
    
   }
 
-  const proceedCheckout = () => {
+  async function proceedCheckout() {
     let user = localStorage.getItem("login");
-    let token = localStorage.getItem("token");
+    let token = localStorage.getItem("userToken");
     let supplierId = localStorage.getItem("supplierId");
+    var productList = [];
+    cartData.map((product) => {
+      var name = product.productName;
+      var qty = product.quantity;
+      var unit = product.unit;
+      var price = parseFloat(product.sellingPrice).toFixed(2) * product.quantity;
+      let jsonData = { name : name, qty : qty, unit : unit, price : price};
+      console.log("Json data is", jsonData);
+      productList.push(jsonData)
+    });
     if(!user) {
       router.push({pathname : '/other/login-register',
     query : { name : 'fromCheckout'}
     });
     }
    else {
-    var headers = {
+    const headers = {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
-      "Authorization" : token
+      "authorization" : token
     };
     var data = {
       sellerId : supplierId,
-      productList : cartData,
+      productList : productList,
       paidAmount : 0,
+      images : [],
       description : "Purchased Online",
-      paymentMode : "Cash"
+      paymentMode : "Cash",
+      notes : "Online"
     }
     var apiBaseUrl = "http://api.dukandar.io/v1/PurchaseOrder";
-    axios
-      .post(apiBaseUrl, data, headers , { validateStatus: false })
+    await axios
+      .post(apiBaseUrl,  data , headers, {validateStatus : false})
       .then((response) => {
         localStorage.removeItem("cartItem");
         router.push('/other/showCheckout');
         addToast("Cart Checkout Done", { appearance: "success", autoDismiss: true });
       })
       .catch((err) => {
+        console.log(err);
         addToast("Failed to Checkout", { appearance: "error", autoDismiss: true });
       });
    }
@@ -141,6 +154,7 @@ const Cart = () => {
 
                           <td className="product-price">
                             <span className="price">&#8377;{discountedPrice}</span>
+                                <span className="unit"> per {product.unit}</span>
                           </td>
 
                           <td className="product-quantity">

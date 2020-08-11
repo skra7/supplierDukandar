@@ -47,9 +47,8 @@ const HeaderOne = ({ aboutOverlay }) => {
       setLoginFlag(true);
     }
     window.addEventListener("scroll", handleScroll);
-    scroll > headerTop
-      ? (document.body.style.paddingTop = `${headerHeight}px`)
-      : (document.body.style.paddingTop = 0);
+    
+      document.body.style.paddingTop = 0;
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
@@ -182,21 +181,23 @@ const HeaderOne = ({ aboutOverlay }) => {
                   </Link>
                 </li> */}
                 <li>
-                  <Link
-                    href="/other/cart"
-                    as={process.env.PUBLIC_URL + "/other/cart"}
+                <button
+                    onClick={() => {
+                      setOffCanvasCartActive(true);
+                      document
+                        .querySelector("body")
+                        .classList.add("overflow-hidden");
+                    }}
                   >
-                    <a>
-                      <IoIosCart />
-                      {/* {cartItems.length >= 1 ? (
-                        <span className="count">
-                          {cartItems.length ? cartItems.length : ""}
-                        </span>
-                      ) : (
-                        ""
-                      )} */}
-                    </a>
-                  </Link>
+                    <IoIosCart />
+                    {cartData.length >= 1 ? (
+                      <span className="count">
+                        {cartData.length ? cartData.length : ""}
+                      </span>
+                    ) : (
+                      ""
+                    )}
+                  </button>
                 </li>
                 <li>
                   <button onClick={() => setOffCanvasMobileMenuActive(true)}>

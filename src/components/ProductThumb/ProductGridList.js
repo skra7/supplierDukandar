@@ -24,22 +24,34 @@ const ProductGridList = ({
     var cartItem = [];
      cartItem = JSON.parse(localStorage.getItem("cartItem")) || [];
     console.log("Product Id coming in is", product._id);
-    var data = {
-      "supplierId" : localStorage.getItem("supplierId"),
-      "supplierCategoryId" : product.supplierCategoryId,
-      "supplierProductId" : product._id,
-      "categoryName" : product.categoryName,
-      "productName" : product.productName,
-      "description" : product.description,
-      "sellingPrice" : product.sellingPrice,
-      "originalPrice" : product.originalPrice,
-      "quantity" : 1,
-      "imageUrl" : product.imageUrl
-    };
-    cartItem.push(data);
-    console.log("The data going in is", data);
-    localStorage.setItem('cartItem', JSON.stringify(cartItem));
-    addToast("Added To Cart", { appearance: "success", autoDismiss: true });
+    let obj = cartItem.find(x => x.supplierProductId === product._id);
+    console.log("object coming in is", obj);
+    if(obj) {
+      let index = cartItem.indexOf(obj);
+      cartItem[index].quantity = cartItem[index].quantity + 1;
+      localStorage.setItem('cartItem', JSON.stringify(cartItem));
+      addToast("Added To Cart", { appearance: "success", autoDismiss: true });
+    }
+    else{
+      var data = {
+        "supplierId" : localStorage.getItem("supplierId"),
+        "supplierCategoryId" : product.supplierCategoryId,
+        "supplierProductId" : product._id,
+        "categoryName" : product.categoryName,
+        "productName" : product.productName,
+        "description" : product.description,
+        "sellingPrice" : product.sellingPrice,
+        "originalPrice" : product.originalPrice,
+        "unit" : product.unit,
+        "quantity" : 1,
+        "imageUrl" : product.imageUrl
+      };
+      cartItem.push(data);
+      console.log("The data going in is", data);
+      localStorage.setItem('cartItem', JSON.stringify(cartItem));
+      addToast("Added To Cart", { appearance: "success", autoDismiss: true });
+    }
+   
   }
 
   // async function productWishlist(product) {
@@ -177,9 +189,13 @@ const ProductGridList = ({
                 <Fragment>
                   <span className="main-price discounted">&#8377;{productPrice}</span>
                   <span className="discounted-price">&#8377;{discountedPrice}</span>
+                  <span className="unit">per {product.unit}</span>
                 </Fragment>
               ) : (
+                <Fragment>
                 <span className="main-price">&#8377;{productPrice}</span>
+                <span className="unit">per {product.unit}</span>
+                </Fragment>
               )}
             </div>
             <br />
