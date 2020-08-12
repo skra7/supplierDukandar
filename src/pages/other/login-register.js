@@ -19,54 +19,49 @@ const LoginRegister = (props) => {
   }
 
 
-  const generateOTP = (event) => {
-    event.preventDefault();
-    var apiBaseUrl = "http://api.dukandar.io/RequestOTP"
-    var data = {
-      "countryCode" : "+91",
-      "numberWithOutCountryCode" : mobileNumber
-    }
-    var headers = {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-    };
-    axios
-      .post(apiBaseUrl, data, headers , { validateStatus: false })
-      .then((response) => {
-        setOTPenabled(true);
-          console.log(response);
-      })
-      .catch((err) => {
-          console.log("######", err);
-      });
-  };
+  // const generateOTP = (event) => {
+  //   event.preventDefault();
+  //   var apiBaseUrl = "http://api.dukandar.io/RequestOTP"
+  //   var data = {
+  //     "countryCode" : "+91",
+  //     "numberWithOutCountryCode" : mobileNumber
+  //   }
+  //   var headers = {
+  //     "Content-Type": "application/json",
+  //     "Access-Control-Allow-Origin": "*",
+  //   };
+  //   axios
+  //     .post(apiBaseUrl, data, headers , { validateStatus: false })
+  //     .then((response) => {
+  //       setOTPenabled(true);
+  //         console.log(response);
+  //     })
+  //     .catch((err) => {
+  //         console.log("######", err);
+  //     });
+  // };
 
     
   const submit = (event) => {
     console.log("The OTP is", OTP);
     console.log("The mobile number is", mobileNumber);
+    var number = "+91" + mobileNumber;
     event.preventDefault();
-    var apiBaseUrl = "http://api.dukandar.io/VerifyOTP"
-    var data = {
-      "countryCode" : "+91",
-      "numberWithOutCountryCode" : mobileNumber,
-      "OTP" : OTP
-    }
+    var apiBaseUrl = "http://localhost:4000/userInfo"
+   
     var headers = {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
+      "number" : number
     };
     axios
-      .post(apiBaseUrl, data, headers , { validateStatus: false })
+      .get(apiBaseUrl,  headers , { validateStatus: false })
       .then((response) => {
-        console.log("Name of router is", name);
-        //setOTPenabled(true);
-        // Add get request for all cart item in Login...
+        //console.log("Name of router is", name);
         var supplierId = localStorage.getItem("supplierId");
         localStorage.setItem("userId", response.data.data._id);
-        localStorage.setItem("userToken", response.data.data.token);
         localStorage.setItem("login", true);
-          console.log("Response data in verify is", response.data.data._id);
+         // console.log("Response data in verify is", response.data.data._id);
           if(name === 'fromCheckout') {
             router.push('/other/cart');
           }
@@ -127,15 +122,11 @@ const LoginRegister = (props) => {
                         required
                       />
                     </Col>
-                   {OTPenabled ? <OTPcontainer OTP={OTP} setOTP={setOTP}/> : ''}
+                   
                     <Col lg={12} className="space-mb--30">
-                      { OTPenabled ? (<button className="lezada-button lezada-button--medium" onClick={submit}>
+                      <button className="lezada-button lezada-button--medium" onClick={submit}>
                         Submit
-                      </button>):
-                      (<button className="lezada-button lezada-button--medium" onClick={generateOTP}>
-                        Generate OTP
-                      </button>)
-                      }
+                      </button>
                     </Col>
                   </Row>
                 </form>
