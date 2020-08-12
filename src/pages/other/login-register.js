@@ -45,19 +45,18 @@ const LoginRegister = (props) => {
   const submit = (event) => {
     console.log("The OTP is", OTP);
     console.log("The mobile number is", mobileNumber);
-    var number = "+91" + mobileNumber;
+    
     event.preventDefault();
-    var apiBaseUrl = "http://localhost:4000/userInfo"
+    var apiBaseUrl = `http://3.7.238.54:4000/userInfo?number=${mobileNumber}`
    
     var headers = {
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-      "number" : number
+      "Access-Control-Allow-Origin": "*"
     };
     axios
       .get(apiBaseUrl,  headers , { validateStatus: false })
       .then((response) => {
-        //console.log("Name of router is", name);
+       console.log("The response is", response);
         var supplierId = localStorage.getItem("supplierId");
         localStorage.setItem("userId", response.data.data._id);
         localStorage.setItem("login", true);

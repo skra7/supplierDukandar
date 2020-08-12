@@ -27,8 +27,6 @@ const MobileMenuWidgets = () => {
   const handleLogin = () => {
     localStorage.removeItem("login");
     localStorage.removeItem("userId");
-    localStorage.removeItem("supplierId");
-    localStorage.removeItem("cartItem");
     let string = window.location.origin + "/";
           window.open(string, "_self");
   };

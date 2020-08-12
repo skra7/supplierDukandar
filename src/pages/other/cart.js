@@ -11,7 +11,6 @@ const Cart = () => {
   const router = useRouter();
   const [cartData, setCartData] = useState([]);
   const [quantityCount] = useState(1);
-  const [token , settoken] = useState('');
   const { addToast } = useToasts();
   const [show , setShow] = useState(false);
   let cartTotalPrice = 0;
@@ -20,7 +19,6 @@ const Cart = () => {
     setInterval(() => {
       setCartData(JSON.parse(localStorage.getItem("cartItem")) || []);
     }, 1000);
-    settoken(localStorage.getItem("userToken") || '');
     document.querySelector("body").classList.remove("overflow-hidden");
   },[]);
 
@@ -53,6 +51,7 @@ const Cart = () => {
     setShow(true);
     let user = localStorage.getItem("login");
     let supplierId = localStorage.getItem("supplierId");
+    let userId = localStorage.getItem("userId");
     var productList = [];
     cartData.map((product) => {
       var name = product.productName;
@@ -69,56 +68,57 @@ const Cart = () => {
     });
     }
    else {
-    const headers = {
+
+    var apiBaseUrl = `http://3.7.238.54:4000/userInfoById?userId=${userId}`
+   
+    var headers = {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
-      Authorization : token
     };
-    console.log("Headers are", headers);
-    var data = {
-      sellerId : supplierId,
-      productList : productList,
-      paidAmount : 0,
-      images : [],
-      description : "Purchased Online",
-      paymentMode : "Cash",
-      notes : "Online"
-    }
-    var apiBaseUrl = "http://api.dukandar.io/v1/PurchaseOrder";
-  //   await fetch(apiBaseUrl, {
-  //     method: 'POST',
-  //     crossDomain: true,
-  //     mode: 'no-cors',
-  //     body: data,
-  //     headers: {
-  //       'Authorization': token,
-  //       'Accept': 'application/json',
-  //       'Content-Type': 'application/json'
-  //     }
-  //  })
-  //    .then(response =>{
-  //         localStorage.removeItem("cartItem");
-  //       router.push('/other/showCheckout');
-  //       addToast("Cart Checkout Done", { appearance: "success", autoDismiss: true });
-  //    })
-  //    .catch(err => {
-  //     console.log(err);
-  //       addToast("Failed to Checkout", { appearance: "error", autoDismiss: true });
-  //     });
-  const proxyurl = "https://cors-anywhere.herokuapp.com/";
-    await axios
-      .post((proxyurl + apiBaseUrl),  data , {headers : headers}, {validateStatus : false})
+    axios
+      .get(apiBaseUrl,  headers , { validateStatus: false })
       .then((response) => {
-        setShow(false);
-        localStorage.removeItem("cartItem");
-        router.push('/other/showCheckout');
-        addToast("Cart Checkout Done", { appearance: "success", autoDismiss: true });
+        let token = response.data.data.token;
+        console.log("Response is", response);
+        console.log("The token mentioned is", token);
+        const headers2 = {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          Authorization : token
+        };
+        console.log("Headers are", headers);
+        var data = {
+          sellerId : supplierId,
+          productList : productList,
+          paidAmount : 0,
+          images : [],
+          description : "Purchased Online",
+          paymentMode : "Cash",
+          notes : "Online"
+        }
+        var apiBaseUrl2 = "http://api.dukandar.io/v1/PurchaseOrder";
+      const proxyurl = "https://cors-anywhere.herokuapp.com/";
+         axios
+          .post((proxyurl + apiBaseUrl2),  data , {headers : headers2}, {validateStatus : false})
+          .then((response) => {
+            setShow(false);
+            localStorage.removeItem("cartItem");
+            router.push('/other/showCheckout');
+            addToast("Cart Checkout Done", { appearance: "success", autoDismiss: true });
+          })
+          .catch((err) => {
+            setShow(false);
+            console.log(err);
+            addToast("Failed to Checkout", { appearance: "error", autoDismiss: true });
+          });
       })
       .catch((err) => {
         setShow(false);
         console.log(err);
-        addToast("Failed to Checkout", { appearance: "error", autoDismiss: true });
-      });
+        addToast("Mobile Number not registered in App", { appearance: "error", autoDismiss: true });
+      })
+
+    
    }
   }
 
