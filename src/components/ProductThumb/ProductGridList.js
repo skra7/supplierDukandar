@@ -193,7 +193,7 @@ const ProductGridList = ({
                 </Fragment>
               ) : (
                 <Fragment>
-                <span className="main-price">&#8377;{productPrice}</span>
+                <span className="main-price">&#8377;{discountedPrice}</span>
                 <span className="unit">per {product.unit}</span>
                 </Fragment>
               )}
