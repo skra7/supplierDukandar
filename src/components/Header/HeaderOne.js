@@ -31,6 +31,8 @@ const HeaderOne = ({ aboutOverlay }) => {
   );
   const [cartData, setCartData] = useState([]);
 
+  const [cartItem , setCartItem] = useState([]);
+
   const [ loginFlag, setLoginFlag] = React.useState(true);
 
   useEffect(() => {
@@ -38,9 +40,8 @@ const HeaderOne = ({ aboutOverlay }) => {
     setHeaderTop(header.offsetTop);
     setHeaderHeight(header.offsetHeight);
     const interval = setInterval(() => {
-      var cartItem = [];
-      cartItem = JSON.parse(localStorage.getItem("cartItem"))|| [];
-      var cartSupplier = localStorage.getItem("supplierId") || [];
+      var cartItem = JSON.parse(localStorage.getItem("cartItem")) || [];
+      var cartSupplier = localStorage.getItem("supplierId") || "";
       var cartFinal =  cartItem.filter(cart => cart.supplierId === cartSupplier) ;
       setCartData(cartFinal);
     }, 1000);

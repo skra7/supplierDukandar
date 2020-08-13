@@ -19,7 +19,7 @@ const Cart = () => {
     setInterval(() => {
       var cartItem = [];
       cartItem = JSON.parse(localStorage.getItem("cartItem"))|| [];
-      var cartSupplier = localStorage.getItem("supplierId") || [];
+      var cartSupplier = localStorage.getItem("supplierId") || "";
       var cartFinal =  cartItem.filter(cart => cart.supplierId === cartSupplier) ;
       setCartData(cartFinal);
     }, 1000);
@@ -27,22 +27,35 @@ const Cart = () => {
   },[]);
 
   const cartValue = (value, product, index) => {
-      cartData[index].quantity = cartData[index].quantity + value;
-    localStorage.setItem('cartItem', JSON.stringify(cartData));
+    var cartItem = [];
+    cartItem = JSON.parse(localStorage.getItem("cartItem"))|| [];
+    cartData[index].quantity = cartData[index].quantity + value;
+    let obj = cartItem.find(cart => cart.supplierProductId === cartData[index].supplierProductId);
+    let index2 = cartItem.indexOf(obj);
+    cartItem.splice(index2, 1, cartData[index]);
+    localStorage.setItem('cartItem', JSON.stringify(cartItem));
     
   }
 
   const deleteFromCart = (product, index) => {
-   
-      cartData.splice(index,1);
-    localStorage.setItem('cartItem', JSON.stringify(cartData));
+    var cartItem = [];
+    cartItem = JSON.parse(localStorage.getItem("cartItem"))|| [];
+    let index2 = cartItem.indexOf(cartData[index]);
+      cartItem.splice(index2,1);
+    localStorage.setItem('cartItem', JSON.stringify(cartItem));
     addToast("Deleted from Cart", { appearance: "warning", autoDismiss: true });
     
   }
 
   
   const deleteAllFromCart = () => {
-     localStorage.removeItem("cartItem");
+    var cartItem = [];
+    cartItem = JSON.parse(localStorage.getItem("cartItem"))|| [];
+    cartData.map((cart) =>{
+      let index = cartItem.indexOf(cart);
+      cartItem.splice(index , 1);
+    });
+     localStorage.setItem("cartItem", JSON.stringify(cartItem));
     addToast("Deleted everything from Cart", { appearance: "warning", autoDismiss: true });
    
   }
@@ -103,8 +116,14 @@ const Cart = () => {
          axios
           .post((proxyurl + apiBaseUrl2),  data , {headers : headers2}, {validateStatus : false})
           .then((response) => {
+            var cartItem = [];
+            cartItem = JSON.parse(localStorage.getItem("cartItem"))|| [];
+            cartData.map((cart) =>{
+              let index = cartItem.indexOf(cart);
+              cartItem.splice(index , 1);
+            });
+            localStorage.setItem("cartItem", JSON.stringify(cartItem));
             setShow(false);
-            localStorage.removeItem("cartItem");
             router.push('/other/showCheckout');
             addToast("Cart Checkout Done", { appearance: "success", autoDismiss: true });
           })
