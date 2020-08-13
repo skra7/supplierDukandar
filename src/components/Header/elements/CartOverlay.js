@@ -11,26 +11,10 @@ const CartOverlay = ({ cartData, activeStatus, getActiveStatus}) => {
   let cartTotalPrice = 0;
   const { addToast } = useToasts();
   const deleteFromCart = (product, index) => {
-    var token = localStorage.getItem("userId");
-      var headers = {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        Authorization : token
-      }
-    var data = {
-      "supplierProductId" : product.supplierProductId 
-    }
-    var apiBaseUrl = "http://3.7.238.54:4000/cart/deleteuserCart"
-    axios
-    .post(apiBaseUrl, data, {headers : headers} , { validateStatus: false })
-    .then((response) => {
       cartData.splice(index,1);
     localStorage.setItem('cartItem', JSON.stringify(cartData));
     addToast("Deleted from Cart", { appearance: "warning", autoDismiss: true });
-    })
-    .catch((err) => {
-      addToast("Failed to Delete from Cart", { appearance: "error", autoDismiss: true });
-    })
+    
   }
   return (
     <div className={`cart-overlay ${activeStatus ? "active" : ""}`}>

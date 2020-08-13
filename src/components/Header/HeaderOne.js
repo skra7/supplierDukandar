@@ -38,7 +38,11 @@ const HeaderOne = ({ aboutOverlay }) => {
     setHeaderTop(header.offsetTop);
     setHeaderHeight(header.offsetHeight);
     const interval = setInterval(() => {
-      setCartData(JSON.parse(localStorage.getItem("cartItem"))|| []);
+      var cartItem = [];
+      cartItem = JSON.parse(localStorage.getItem("cartItem"))|| [];
+      var cartSupplier = localStorage.getItem("supplierId") || [];
+      var cartFinal =  cartItem.filter(cart => cart.supplierId === cartSupplier) ;
+      setCartData(cartFinal);
     }, 1000);
     if(localStorage.getItem("userId")) {
       setLoginFlag(false);

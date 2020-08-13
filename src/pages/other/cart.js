@@ -17,7 +17,11 @@ const Cart = () => {
 
   useEffect(() => {
     setInterval(() => {
-      setCartData(JSON.parse(localStorage.getItem("cartItem")) || []);
+      var cartItem = [];
+      cartItem = JSON.parse(localStorage.getItem("cartItem"))|| [];
+      var cartSupplier = localStorage.getItem("supplierId") || [];
+      var cartFinal =  cartItem.filter(cart => cart.supplierId === cartSupplier) ;
+      setCartData(cartFinal);
     }, 1000);
     document.querySelector("body").classList.remove("overflow-hidden");
   },[]);
@@ -79,8 +83,6 @@ const Cart = () => {
       .get(apiBaseUrl,  headers , { validateStatus: false })
       .then((response) => {
         let token = response.data.data.token;
-        console.log("Response is", response);
-        console.log("The token mentioned is", token);
         const headers2 = {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",

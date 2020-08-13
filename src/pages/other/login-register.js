@@ -6,6 +6,7 @@ import OtpInput from 'react-otp-input';
 import React from "react";
 import axios from "axios";
 import { useRouter } from 'next/router';
+import { useToasts } from "react-toast-notifications";
 
 const LoginRegister = (props) => {
   const [OTP, setOTP] = React.useState("");
@@ -79,6 +80,7 @@ const LoginRegister = (props) => {
       })
       .catch((err) => {
           console.log("######", err);
+          addToast("Mobile Number not registered with App", { appearance: "error", autoDismiss: true });
       });
     // setOTPenabled(false);
   }
