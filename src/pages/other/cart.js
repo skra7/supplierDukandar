@@ -81,7 +81,9 @@ const Cart = () => {
     setShow(true);
     let user = localStorage.getItem("login");
     let supplierId = localStorage.getItem("supplierId");
-    let userId = localStorage.getItem("userId");
+    let mobileNumber = "+91" + localStorage.getItem("mobileNumber");
+    console.log("The mobile number is", mobileNumber);
+    let name = localStorage.getItem("username");
     var productList = [];
     cartData.map((product) => {
       var name = product.productName;
@@ -89,8 +91,6 @@ const Cart = () => {
       var unit = product.unit;
       var price = parseFloat(product.sellingPrice).toFixed(2);
       let jsonData = { name : name, qty : qty, unit : unit, price : price};
-      console.log("Json data is", jsonData);
-      productList.push(jsonData)
     });
     if(!user) {
       router.push({pathname : '/other/login-register',
@@ -98,24 +98,13 @@ const Cart = () => {
     });
     }
    else {
-
-    var apiBaseUrl = `http://3.7.238.54:4000/userInfoById?userId=${userId}`
-   
-    var headers = {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-    };
-    axios
-      .get(apiBaseUrl,  headers , { validateStatus: false })
-      .then((response) => {
-        let token = response.data.data.token;
         const headers2 = {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          Authorization : token
+          "Access-Control-Allow-Origin": "*"
         };
-        console.log("Headers are", headers);
         var data = {
+          userNumber : mobileNumber,
+          userName : name,
           sellerId : supplierId,
           productList : productList,
           paidAmount : 0,
@@ -145,13 +134,6 @@ const Cart = () => {
             console.log(err);
             addToast("Failed to Checkout", { appearance: "error", autoDismiss: true });
           });
-      })
-      .catch((err) => {
-        setShow(false);
-        console.log(err);
-        addToast("Mobile Number not registered in App", { appearance: "error", autoDismiss: true });
-      })
-
     
    }
   }

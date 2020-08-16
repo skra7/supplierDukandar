@@ -9,14 +9,19 @@ import { useRouter } from 'next/router';
 import { useToasts } from "react-toast-notifications";
 
 const LoginRegister = (props) => {
-  const [OTP, setOTP] = React.useState("");
   const [OTPenabled , setOTPenabled] = React.useState(false);
   const [mobileNumber, setMobileNumber] = React.useState("");
+  const [username, setuserName] = React.useState("");
   const router = useRouter();
   const { name } = router.query || '';
 
   const handleMobileChange = (event) => {
     setMobileNumber(event.target.value);
+  }
+
+  
+  const handleNameChange = (event) => {
+    setuserName(event.target.value);
   }
 
 
@@ -44,44 +49,22 @@ const LoginRegister = (props) => {
 
     
   const submit = (event) => {
-    console.log("The OTP is", OTP);
-    console.log("The mobile number is", mobileNumber);
+    
     
     event.preventDefault();
-    var apiBaseUrl = `http://3.7.238.54:4000/userInfo?number=${mobileNumber}`
-   
-    var headers = {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*"
-    };
-    axios
-      .get(apiBaseUrl,  headers , { validateStatus: false })
-      .then((response) => {
-       console.log("The response is", response);
-        var supplierId = localStorage.getItem("supplierId");
-        localStorage.setItem("userId", response.data.data._id);
-        localStorage.setItem("login", true);
+    var supplierId = localStorage.getItem("supplierId");
+    localStorage.setItem("mobileNumber", mobileNumber);
+    localStorage.setItem("username", username);
+    localStorage.setItem("login", true);
          // console.log("Response data in verify is", response.data.data._id);
           if(name === 'fromCheckout') {
             router.push('/other/cart');
           }
           else {
-          if(supplierId) {
             let string = window.location.origin + `/Home/${supplierId}`;
             window.open(string, "_self");
           }
-          else {
-            localStorage.setItem("supplierId", response.data.data._id);
-            let string = window.location.origin + `/Home/${response.data.data._id}`;
-            window.open(string, "_self");
-          }
-        }
-         
-      })
-      .catch((err) => {
-          console.log("######", err);
-          addToast("Mobile Number not registered with App", { appearance: "error", autoDismiss: true });
-      });
+          
     // setOTPenabled(false);
   }
   return (
@@ -115,11 +98,22 @@ const LoginRegister = (props) => {
                       </div>
                     </Col>
                     <Col lg={12} className="space-mb--60">
+                    <label>Mobile Number</label>
                       <input
                         type="text"
                         value={mobileNumber}
                         onChange={handleMobileChange}
-                        placeholder="Mobile Number"
+                        placeholder="Enter here"
+                        required
+                      />
+                    </Col>
+                    <Col lg={12} className="space-mb--60">
+                      <label>Name</label>
+                      <input
+                        type="text"
+                        value={username}
+                        onChange={handleNameChange}
+                        placeholder="Enter here"
                         required
                       />
                     </Col>
