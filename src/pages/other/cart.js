@@ -48,6 +48,22 @@ const Cart = () => {
   }
 
   
+
+  const handleClose = () => {
+    setShow(false);
+  }
+
+  const [ show2, setshow2] = useState(false);
+
+  const handleModal = () => {
+    setshow2(true);
+  }
+
+  
+  const handleClose2 = () => {
+    setshow2(false);
+  }
+  
   const deleteAllFromCart = () => {
     var cartItem = [];
     cartItem = JSON.parse(localStorage.getItem("cartItem"))|| [];
@@ -56,12 +72,9 @@ const Cart = () => {
       cartItem.splice(index , 1);
     });
      localStorage.setItem("cartItem", JSON.stringify(cartItem));
+     setshow2(false);
     addToast("Deleted everything from Cart", { appearance: "warning", autoDismiss: true });
    
-  }
-
-  const handleClose = () => {
-    setShow(false);
   }
 
   async function proceedCheckout() {
@@ -196,6 +209,7 @@ const Cart = () => {
                                   }
                                   className="img-fluid"
                                   alt=""
+                                  style={{width:"300px",height:"300px"}}
                                 />
                               </a>
                           </td>
@@ -288,9 +302,10 @@ const Cart = () => {
                     <Col lg={5} className="text-left text-lg-right">
                       <button
                         className="lezada-button lezada-button--medium"
+                        style = {{background : "red"}}
                         onClick={(event) => {
                           event.preventDefault();
-                          deleteAllFromCart();
+                          handleModal();
                         }}
                       >
                         clear cart
@@ -322,6 +337,7 @@ const Cart = () => {
                         event.preventDefault();
                         proceedCheckout();
                       }}
+                      style = {{background : "green"}}
                       className="lezada-button lezada-button--medium">
                         proceed to checkout
                       </button>
@@ -362,6 +378,22 @@ const Cart = () => {
         <Modal.Title><span>Please wait while we submit your order....</span>
         <span><Spinner animation="border" variant="success" /></span>
         </Modal.Title>
+      </Modal>
+      <Modal show={show2} onHide={handleClose2}>
+        <Modal.Header closeButton>
+          <Modal.Title color="secondary">Delete Products</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are You Sure you want to Empty your Cart?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose2}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={(event) => {
+            event.preventDefault();
+            deleteAllFromCart();}}>
+            Confirm
+          </Button>
+        </Modal.Footer>
       </Modal>
     </LayoutTwo>
   );

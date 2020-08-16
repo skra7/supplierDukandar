@@ -67,6 +67,7 @@ const CartOverlay = ({ cartData, activeStatus, getActiveStatus}) => {
                                   product.imageUrl ? product.imageUrl : "/assets/images/product/product_thumbnail.jpg"
                                 }
                                 className="img-fluid"
+                                style={{width : "200px", height : "100px"}}
                                 alt=""
                               />
                             </a>

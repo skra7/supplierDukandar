@@ -100,8 +100,7 @@ const ProductGridList = ({
             <img
               src={product.imageUrl ? product.imageUrl : "/assets/images/product/product_thumbnail.jpg"}
               className="img-fluid"
-              width="200"
-              height="50"
+              style={{width : "200px", height : "200px"}}
               alt={product.name}
             />
             {/* <a className="image-wrap">
