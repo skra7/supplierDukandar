@@ -91,6 +91,7 @@ const Cart = () => {
       var unit = product.unit;
       var price = parseFloat(product.sellingPrice).toFixed(2);
       let jsonData = { name : name, qty : qty, unit : unit, price : price};
+      productList.push(jsonData);
     });
     if(!user) {
       router.push({pathname : '/other/login-register',
@@ -113,10 +114,10 @@ const Cart = () => {
           paymentMode : "Cash",
           notes : "Online"
         }
-        var apiBaseUrl2 = "http://api.dukandar.io/v1/PurchaseOrder";
-      const proxyurl = "https://cors-anywhere.herokuapp.com/";
+        var apiBaseUrl2 = "http://3.7.238.54:4000/v1/purchaseOrder";
+      //const proxyurl = "https://cors-anywhere.herokuapp.com/";
          axios
-          .post((proxyurl + apiBaseUrl2),  data , {headers : headers2}, {validateStatus : false})
+          .post(apiBaseUrl2,  data , {headers : headers2}, {validateStatus : false})
           .then((response) => {
             var cartItem = [];
             cartItem = JSON.parse(localStorage.getItem("cartItem"))|| [];
