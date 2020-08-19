@@ -93,7 +93,7 @@ const Cart = () => {
       let jsonData = { name : name, qty : qty, unit : unit, price : price};
       productList.push(jsonData);
     });
-    if(!user && !name && !mobileNumber) {
+    if(!name || !mobileNumber) {
       router.push({pathname : '/other/login-register',
     query : { name : 'fromCheckout'}
     });
