@@ -93,7 +93,7 @@ const Cart = () => {
       let jsonData = { name : name, qty : qty, unit : unit, price : price};
       productList.push(jsonData);
     });
-    if(!user) {
+    if(!user && !name && !mobileNumber) {
       router.push({pathname : '/other/login-register',
     query : { name : 'fromCheckout'}
     });
@@ -114,6 +114,7 @@ const Cart = () => {
           paymentMode : "Cash",
           notes : "Online"
         }
+        console.log("Data is : ", data);
         var apiBaseUrl2 = "http://3.7.238.54:4000/v1/purchaseOrder";
       //const proxyurl = "https://cors-anywhere.herokuapp.com/";
          axios
