@@ -9,7 +9,7 @@ export default function Home() {
   const { pathname } = router.pathname;
   
   useEffect(() => {
-      router.push('/${id}'); 
+      router.push(`/${id}`); 
   }, [])
 
   return <p>Redirecting...</p>
