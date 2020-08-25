@@ -44,12 +44,13 @@ const HeaderOne = ({ aboutOverlay }) => {
     const header = document.querySelector("header");
     setHeaderTop(header.offsetTop);
     setHeaderHeight(header.offsetHeight);
-    setSupplierNumber(localStorage.getItem("supplierNumber") || "");
+    
     const interval = setInterval(() => {
       var cartItem = JSON.parse(localStorage.getItem("cartItem")) || [];
       var cartSupplier = localStorage.getItem("supplierId") || "";
       var cartFinal =  cartItem.filter(cart => cart.supplierId === cartSupplier) ;
       setCartData(cartFinal);
+      setSupplierNumber(localStorage.getItem("supplierNumber") || "");
     }, 1000);
     if(localStorage.getItem("userId")) {
       setLoginFlag(false);
