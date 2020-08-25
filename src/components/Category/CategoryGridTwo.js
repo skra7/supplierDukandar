@@ -1,10 +1,46 @@
 import Link from "next/link";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { useRouter } from 'next/router';
+import { useMediaQuery } from 'react-responsive';
+import { useContext } from "react";
+import { makeStyles } from '@material-ui/core/styles';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { ProductActualList} from "../ProductThumb";
+import Box from "@material-ui/core/Box";
+import CustomScroll from "react-custom-scroll";
 
-const CategoryGridTwo = ({ spaceBottomClass, categoryData }) => {
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%'
+  },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    flexBasis: '70%',
+    flexShrink: 0
+  },
+  secondaryHeading: {
+    fontSize: theme.typography.pxToRem(15),
+    color: theme.palette.text.secondary,
+  },
+}));
+
+const CategoryGridTwo = ({ spaceBottomClass, categoryData, productData }) => {
   const router = useRouter();
-  return (
+  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
+
+  const classes = useStyles();
+  const [expanded, setExpanded] = React.useState(false);
+
+  const handleChangePanel = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
+  
+    return (
     <div
       className={`product-category-container ${
         spaceBottomClass ? spaceBottomClass : ""
@@ -16,163 +52,84 @@ const CategoryGridTwo = ({ spaceBottomClass, categoryData }) => {
             // const data = category["_id"];
             console.log("Category Id is", category._id);
              console.log("The data here is", category, index);
+            
+            
             return (
+              
              <Col lg={3} md={6} >
-             <div className="single-category single-category--one space-mb--100">
+             <div className="single-category single-category--one space-mb--5">
              <Card>
-              <Card.Header>{category.categoryName}</Card.Header>
+              <Card.Header style={{backgroundColor : "#31de79"}}><Typography variant="h4" style={{color : "white"}}>
+            <Box fontWeight="fontWeightBold">
+            {category.categoryName}
+              </Box>
+              </Typography></Card.Header>
               <Card.Body>
-            <Card.Title>Product Count : {category.productCount}</Card.Title>
+            <Card.Title>Product Count : {productData.length}</Card.Title>
                 <Card.Text>
                   {category.description}
                 </Card.Text>
-                <Button size="small" variant="primary" onClick={(e) => {
+                  <Accordion expanded={expanded === category._id} className={classes.root} onChange={handleChangePanel(category._id)}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1bh-content"
+            id={category._id}
+          >
+            <Typography className={classes.heading}>
+            <Box fontWeight="fontWeightBold">
+              Explore Products
+              </Box>
+              </Typography>
+            {/* <Typography className={classes.secondaryHeading}>I am an accordion</Typography> */}
+          </AccordionSummary>
+          <AccordionDetails id={category._id}>
+          <div className="cart-overlay__content-container">
+          <div className="cart-product-wrapper">
+              <div className="cart-product-container">
+              <CustomScroll allowOuterScroll={true}>
+          {productData &&
+        productData.map((product) => {
+            if(product.supplierCategoryId === category._id)
+            {
+                console.log("Product List is", product);
+          const discountedPrice = parseFloat(product.sellingPrice).toFixed(2);
+          const discount = (((parseFloat(product.originalPrice)-parseFloat(product.sellingPrice))/parseFloat(product.originalPrice))*100).toFixed(0);
+          const productPrice = parseFloat(product.originalPrice).toFixed(2);
+          return(
+            <ProductActualList
+            product = {product}
+            discountedPrice = {discountedPrice}
+            discount = {discount}
+            productPrice = {productPrice}
+            />
+          )
+          
+            }
+          })}
+          </CustomScroll>
+          </div>
+          </div>
+          </div>
+          </AccordionDetails>
+        </Accordion>
+                {/* <Button size="small" variant="primary" onClick={(e) => {
                   e.preventDefault();
                   let string = window.location.origin + `/shop/no-sidebar/${category._id}`;
                   window.open(string, "_self");
-                }}>Explore Products</Button>
+                }}>Explore Products</Button> */}
               </Card.Body>
             </Card>
              </div>
-           </Col>
+            </Col>
             )
           })}
-          {/* <Col lg={3} md={6}>
-            <div className="single-category single-category--one">
-              <div className="single-category__image single-category__image--one">
-                <img
-                  src={
-                    process.env.PUBLIC_URL +
-                    "/assets/images/category/category-women.jpg"
-                  }
-                  className="img-fluid"
-                  alt=""
-                />
-              </div>
-              <div className="single-category__content single-category__content--one space-mt--25 space-mb--25">
-                <div className="title">
-                  <p>Women</p>
-                  <Link
-                    href="/shop/left-sidebar"
-                    as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                  >
-                    <a>+ Online store</a>
-                  </Link>
-                </div>
-                <p className="product-count">999</p>
-              </div>
-              <Link
-                href="/shop/left-sidebar"
-                as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-link" />
-              </Link>
-            </div>
-          </Col>
-          <Col lg={3} md={6}>
-            <div className="single-category single-category--one">
-              <div className="single-category__content single-category__content--one space-mt--25 space-mb--25">
-                <div className="title">
-                  <p>Shoes</p>
-                  <Link
-                    href="/shop/left-sidebar"
-                    as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                  >
-                    <a>+ Online store</a>
-                  </Link>
-                </div>
-                <p className="product-count">222</p>
-              </div>
-
-              <div className="single-category__image single-category__image--one">
-                <img
-                  src={
-                    process.env.PUBLIC_URL +
-                    "/assets/images/category/category-shoes.jpg"
-                  }
-                  className="img-fluid"
-                  alt=""
-                />
-              </div>
-
-              <Link
-                href="/shop/left-sidebar"
-                as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-link" />
-              </Link>
-            </div>
-          </Col>
-          <Col lg={3} md={6}>
-            <div className="single-category single-category--one">
-              <div className="single-category__image single-category__image--one">
-                <img
-                  src={
-                    process.env.PUBLIC_URL +
-                    "/assets/images/category/category-bags.jpg"
-                  }
-                  className="img-fluid"
-                  alt=""
-                />
-              </div>
-              <div className="single-category__content single-category__content--one space-mt--25 space-mb--25">
-                <div className="title">
-                  <p>Bags</p>
-                  <Link
-                    href="/shop/left-sidebar"
-                    as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                  >
-                    <a>+ Online store</a>
-                  </Link>
-                </div>
-                <p className="product-count">4</p>
-              </div>
-              <Link
-                href="/shop/left-sidebar"
-                as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-link" />
-              </Link>
-            </div>
-          </Col>
-          <Col lg={3} md={6}>
-            <div className="single-category single-category--one">
-              <div className="single-category__content single-category__content--one space-mt--25 space-mb--25">
-                <div className="title">
-                  <p>Men</p>
-                  <Link
-                    href="/shop/left-sidebar"
-                    as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                  >
-                    <a>+ Online store</a>
-                  </Link>
-                </div>
-                <p className="product-count">4</p>
-              </div>
-
-              <div className="single-category__image single-category__image--one">
-                <img
-                  src={
-                    process.env.PUBLIC_URL +
-                    "/assets/images/category/category-men.jpg"
-                  }
-                  className="img-fluid"
-                  alt=""
-                />
-              </div>
-
-              <Link
-                href="/shop/left-sidebar"
-                as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-link" />
-              </Link>
-            </div>
-          </Col> */}
-        </Row>
+                  </Row>
       </Container>
     </div>
   );
-};
 
+  
+  };
+
+  
 export default CategoryGridTwo;

@@ -9,7 +9,8 @@ import {
   IoIosCart,
   IoIosMenu,
   IoIosPower,
-  IoLogoWhatsapp
+  IoLogoWhatsapp,
+  IoMdMail
 } from "react-icons/io";
 import { IconContext } from "react-icons";
 import Navigation from "./elements/Navigation";
@@ -19,6 +20,7 @@ import CartOverlay from "./elements/CartOverlay";
 // import WishlistOverlay from "./elements/WishlistOverlay";
 import MobileMenu from "./elements/MobileMenu";
 import Button from 'react-bootstrap/Button';
+import { useMediaQuery } from 'react-responsive';
 
 
 const HeaderOne = ({ aboutOverlay }) => {
@@ -32,6 +34,7 @@ const HeaderOne = ({ aboutOverlay }) => {
   const [offCanvasMobileMenuActive, setOffCanvasMobileMenuActive] = useState(
     false
   );
+  const [mobileView , setMobileView] = useState(false);
   const [cartData, setCartData] = useState([]);
 
   const [cartItem , setCartItem] = useState([]);
@@ -39,6 +42,7 @@ const HeaderOne = ({ aboutOverlay }) => {
   const [ loginFlag, setLoginFlag] = React.useState(true);
 
   const [supplierNumber , setSupplierNumber] = React.useState("");
+  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
 
   useEffect(() => {
     const header = document.querySelector("header");
@@ -58,6 +62,7 @@ const HeaderOne = ({ aboutOverlay }) => {
     else {
       setLoginFlag(true);
     }
+    
     window.addEventListener("scroll", handleScroll);
     
       document.body.style.paddingTop = 0;
@@ -81,36 +86,21 @@ const HeaderOne = ({ aboutOverlay }) => {
 
   
   return (
-    <Fragment>
+    <Fragment >
       <header
         className={`topbar-shadow ${scroll > headerTop ? "is-sticky" : ""}`}
+        style = {isTabletOrMobile ? {background : "black"} : {background : "white"}}
       >
         <Container className="wide">
-          <div className="header-content d-flex align-items-center justify-content-between position-relative space-py-mobile-only--30">
+          <div className="header-content d-flex align-items-center justify-content-between position-relative space-py-mobile-only--30" 
+          
+          >
             {/* logo */}
             <div className="header-content__logo d-flex align-items-center space-pr--15">
-              <button
-                onClick={() => {
-                  setOffCanvasAboutActive(true);
-                  document
-                    .querySelector("body")
-                    .classList.add("overflow-hidden");
-                }}
-                className={`${
-                  aboutOverlay === false
-                    ? "d-none"
-                    : "about-overlay-trigger d-none d-lg-block"
-                }`}
-              >
-                <IoIosMenu />
-              </button>
+             
               <Link href="/" as={process.env.PUBLIC_URL + "/"}>
                 <a>
-                  <img
-                    src={process.env.PUBLIC_URL + "/assets/images/icon.jpg"}
-                    className="img-fluid"
-                    alt=""
-                  />
+                 <h3 style={isTabletOrMobile ? {color : "white"} : {color : "black"}}><strong>DUKAN<span style={{ color : "#31de79"}}>DAR</span></strong></h3>
                 </a>
               </Link>
             </div>
@@ -121,25 +111,7 @@ const HeaderOne = ({ aboutOverlay }) => {
             {/* icons */}
             <div className="header-content__icons space-pl--15">
               <ul className="d-none d-lg-block">
-                <li>
-                  <button
-                    onClick={() => {
-                      setOffCanvasSearchActive(true);
-                      document
-                        .querySelector("body")
-                        .classList.add("overflow-hidden");
-                    }}
-                  >
-                    <IoIosSearch />
-                  </button>
-                </li>
-                <li>
-                  <Button
-                    onClick={handleLogin}
-                  >
-                      <IoIosPower />
-                  </Button>
-                </li>
+                
                 {/* <li>
                   <button
                     onClick={() => {
@@ -159,7 +131,7 @@ const HeaderOne = ({ aboutOverlay }) => {
                     )} */}
                   {/* </button>
                 </li> */}
-                <li>
+                <li style={{ color : "white"}}>
                   
                   <a  href={`https://api.whatsapp.com/send?phone=91${supplierNumber}`}
                   target="_blank"
@@ -175,6 +147,7 @@ const HeaderOne = ({ aboutOverlay }) => {
                         .querySelector("body")
                         .classList.add("overflow-hidden");
                     }}
+                    style={isTabletOrMobile ? {color : "white"} : {color : "black"}}
                   >
                     <IoIosCart />
                     {cartData.length >= 1 ? (
@@ -205,8 +178,9 @@ const HeaderOne = ({ aboutOverlay }) => {
                         .querySelector("body")
                         .classList.add("overflow-hidden");
                     }}
+                    style={isTabletOrMobile ? {color : "white"} : {color : "black"}}
                   >
-                    <IoIosCart />
+                    <IoIosCart style={isTabletOrMobile ? {fill : "white"} : {fill : "black"}}/>
                     {cartData.length >= 1 ? (
                       <span className="count">
                         {cartData.length ? cartData.length : ""}
@@ -217,10 +191,15 @@ const HeaderOne = ({ aboutOverlay }) => {
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => setOffCanvasMobileMenuActive(true)}>
-                    <IoIosMenu />
-                  </button>
+                 <a href = "mailto:contact@dukandar.io">
+                 <IoMdMail style={isTabletOrMobile ? {fill : "white"} : {fill : "black"}}/>
+                   </a> 
                 </li>
+                {/* <li>
+                  <button  onClick={() => setOffCanvasMobileMenuActive(true)}>
+                    <IoIosMenu style={{ fill : "white"}}/>
+                  </button>
+                </li> */}
               </ul>
             </div>
           </div>

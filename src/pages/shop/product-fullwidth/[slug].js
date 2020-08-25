@@ -52,7 +52,7 @@ const ProductFullwidth = ({
   return (
     <LayoutTwo>
       {/* breadcrumb */}
-      <BreadcrumbOne
+      {/* <BreadcrumbOne
         pageTitle={product.name}
         backgroundImage="/assets/images/backgrounds/breadcrumb-bg-1.png"
       >
@@ -72,14 +72,14 @@ const ProductFullwidth = ({
           </li>
           <li>{product.name}</li>
         </ul>
-      </BreadcrumbOne>
+      </BreadcrumbOne> */}
 
       {/* product details */}
       <div className="product-details space-mt--r100 space-mb--r100">
         <Container className="wide">
           <Row>
             <Col lg={6} className="space-mb-mobile-only--50">
-              {/* image gallery left thumb */}
+              
               <ImageGalleryLeftThumb
                 product={product}
                 wishlistItem={wishlistItem}

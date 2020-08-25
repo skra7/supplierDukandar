@@ -24,25 +24,11 @@ const MobileMenuWidgets = () => {
     }
   },[]);
   
-  const handleLogin = () => {
-    localStorage.removeItem("login");
-    localStorage.removeItem("userId");
-    let string = window.location.origin + "/";
-          window.open(string, "_self");
-  };
+  
   return (
     <div className="offcanvas-mobile-menu__widgets">
       <div className="contact-widget space-mb--30">
         <ul>
-                <li>
-                
-            <Button
-            variant="light"
-              onClick={handleLogin}
-            >
-              <IoIosPower /><a>Log Out</a>
-            </Button>
-            </li>
           <li>
             <IoMdMail />
             <a href="mailto:contact@dukandar.io">contact@dukandar.io</a>

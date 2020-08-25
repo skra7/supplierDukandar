@@ -4,6 +4,7 @@ import ProductGridThreeWrapper from "./ProductGridThreeWrapper";
 import ProductGridFourWrapper from "./ProductGridFourWrapper";
 import ProductGridListWrapper from "./ProductGridListWrapper";
 import ProductWidgetWrapper from "./ProductWidgetWrapper";
+import ProductActualList from "./ProductActualList";
 
 export {
   ProductGridWrapper,
@@ -11,5 +12,6 @@ export {
   ProductGridThreeWrapper,
   ProductGridFourWrapper,
   ProductGridListWrapper,
-  ProductWidgetWrapper
+  ProductWidgetWrapper,
+  ProductActualList
 };

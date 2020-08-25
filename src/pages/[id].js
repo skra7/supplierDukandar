@@ -14,6 +14,7 @@ const Home = () => {
   const { pathname } = router.pathname;
   const [categoryData , setCategoryData] = React.useState([]);
   const [ supplierData, setSupplierData] = React.useState([]);
+  const [productData , setProductData] = React.useState([]);
  React.useEffect(() => {
   console.log("The Id of supplier is", id);
   var supplierId = localStorage.setItem("supplierId", id);
@@ -58,14 +59,32 @@ const Home = () => {
     )
   }
   getCategory();
-  
+  async function getProduct (){
+    await fetch (
+     `http://3.7.238.54:4000/supplierProductByUser?id=${id}`,
+     {
+       method: 'GET',
+       headers: new Headers({
+         "Content-Type": "application/json",
+         "Access-Control-Allow-Origin": "*"
+       })
+     }).then(r => r.json())
+     .then(r => {
+       console.log("Response is", r.data[0]);
+       setProductData(r.data[0])})
+     .catch(err =>{
+       console.log(err);
+     }
+   )
+ }
+ getProduct();
   
 },[]);
   
   return (
     <LayoutOne aboutOverlay={true}>
       {/* hero slider */}
-      <BreadcrumbOne
+      {/* <BreadcrumbOne
         pageTitle={supplierData.businessName}
         backgroundImage="/assets/images/backgrounds/cartbg.jpg"
       >
@@ -78,11 +97,12 @@ const Home = () => {
 
          
         </ul>
-      </BreadcrumbOne>
+      </BreadcrumbOne> */}
 
       {/* product tab */}
       <CategoryTab
       categoryData = {categoryData}
+      productData = {productData}
       />
 
       {/* image cta */}
