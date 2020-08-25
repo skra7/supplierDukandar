@@ -50,8 +50,7 @@ const CategoryGridTwo = ({ spaceBottomClass, categoryData, productData }) => {
         <Row>
           {categoryData.map((category, index) => {
             // const data = category["_id"];
-            console.log("Category Id is", category._id);
-             console.log("The data here is", category, index);
+           
             
             
             return (
@@ -65,9 +64,9 @@ const CategoryGridTwo = ({ spaceBottomClass, categoryData, productData }) => {
               </Box>
               </Typography></Card.Header>
               <Card.Body>
-            <Card.Title>Product Count : {productData.length}</Card.Title>
+            <Card.Title>Product Count : {productData.filter(product => product.supplierCategoryId === category._id).length}</Card.Title>
                 <Card.Text>
-                  {category.description}
+                  {category.description || `.`}
                 </Card.Text>
                   <Accordion expanded={expanded === category._id} className={classes.root} onChange={handleChangePanel(category._id)}>
           <AccordionSummary

@@ -29,7 +29,6 @@ const Home = () => {
         })
       }).then(r => r.json())
       .then(r => {
-        console.log("Response is", r.data.businessDetails);
         setSupplierData(r.data.businessDetails);
         localStorage.setItem("supplierNumber",r.data.numberWithOutCountryCode);
         localStorage.setItem("supplierBusinessDetails",  r.data.businessDetails)
@@ -51,7 +50,6 @@ const Home = () => {
         })
       }).then(r => r.json())
       .then(r => {
-        console.log("Response is", r.data[0]);
         setCategoryData(r.data[0])})
       .catch(err =>{
         console.log(err);
@@ -70,7 +68,6 @@ const Home = () => {
        })
      }).then(r => r.json())
      .then(r => {
-       console.log("Response is", r.data[0]);
        setProductData(r.data[0])})
      .catch(err =>{
        console.log(err);
