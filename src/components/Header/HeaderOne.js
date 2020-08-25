@@ -8,8 +8,10 @@ import {
   IoIosHeartEmpty,
   IoIosCart,
   IoIosMenu,
-  IoIosPower
+  IoIosPower,
+  IoLogoWhatsapp
 } from "react-icons/io";
+import { IconContext } from "react-icons";
 import Navigation from "./elements/Navigation";
 // import AboutOverlay from "./elements/AboutOverlay";
 // import SearchOverlay from "./elements/SearchOverlay";
@@ -17,6 +19,7 @@ import CartOverlay from "./elements/CartOverlay";
 // import WishlistOverlay from "./elements/WishlistOverlay";
 import MobileMenu from "./elements/MobileMenu";
 import Button from 'react-bootstrap/Button';
+
 
 const HeaderOne = ({ aboutOverlay }) => {
   const [scroll, setScroll] = useState(0);
@@ -35,10 +38,13 @@ const HeaderOne = ({ aboutOverlay }) => {
 
   const [ loginFlag, setLoginFlag] = React.useState(true);
 
+  const [supplierNumber , setSupplierNumber] = React.useState("");
+
   useEffect(() => {
     const header = document.querySelector("header");
     setHeaderTop(header.offsetTop);
     setHeaderHeight(header.offsetHeight);
+    setSupplierNumber(localStorage.getItem("supplierNumber") || "");
     const interval = setInterval(() => {
       var cartItem = JSON.parse(localStorage.getItem("cartItem")) || [];
       var cartSupplier = localStorage.getItem("supplierId") || "";
@@ -153,6 +159,14 @@ const HeaderOne = ({ aboutOverlay }) => {
                   {/* </button>
                 </li> */}
                 <li>
+                  
+                  <a  href={`https://api.whatsapp.com/send?phone=91${supplierNumber}`}
+                  target="_blank"
+                  >
+                   <IoLogoWhatsapp size={30} style={{ fill: '#4FCE5D' }}/>
+                  </a>
+              </li>
+                <li>
                   <button
                     onClick={() => {
                       setOffCanvasCartActive(true);
@@ -174,17 +188,14 @@ const HeaderOne = ({ aboutOverlay }) => {
               </ul>
 
               <ul className="d-block d-lg-none">
-                {/* <li>
-                  <Link
-                    href="/other/wishlist"
-                    as={process.env.PUBLIC_URL + "/other/wishlist"}
-                  >
-                    <a>
-                      <IoIosHeartEmpty />
-                      
+                <li>
+                  
+                    <a  href={`https://api.whatsapp.com/send?phone=91${supplierNumber}`}
+                    target="_blank"
+                    >
+                    <IoLogoWhatsapp size={30} style={{ fill: '#4FCE5D' }}/>
                     </a>
-                  </Link>
-                </li> */}
+                </li>
                 <li>
                 <button
                     onClick={() => {

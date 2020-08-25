@@ -14,12 +14,20 @@ export default function Page() {
     console.log("The user data is", user);
     console.log("The router pathname is", pathname);
   console.log("The router query name is", id);
+  if(!supplierId) {
+    let string = `http://dukandar.io`;
+        window.open(string, "_self");
+  }
+  else{
     if (!user) {
       router.push('/other/login-register')
     }
     else { 
-      router.push(`/Home/${supplierId}`)
+        router.push(`/${supplierId}`)
+      
     }
+  }
+    
     
   }, [])
 
