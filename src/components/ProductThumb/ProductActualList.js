@@ -6,6 +6,8 @@ import { Tooltip } from "react-tippy";
 import axios from 'axios';
 import { useToasts } from "react-toast-notifications";
 import Box from '@material-ui/core/Box';
+import { useRouter } from 'next/router';
+
 const ProductActualList = ({
   product,
   discountedPrice,
@@ -13,8 +15,8 @@ const ProductActualList = ({
   productPrice
 }) => {
     
-  
-   
+  const productData = product;
+  const router = useRouter(); 
   const { addToast } = useToasts();
   async function productCart(product) {
     var cartItem = [];
@@ -62,6 +64,10 @@ const ProductActualList = ({
               className="img-fluid"
               style={{width : "200px", height : "100px"}}
               alt={product.name}
+              onClick={(event) => {
+                event.preventDefault();
+                router.push(`/shop/product-fullwidth/${product._id}`)
+              }}
             />
             </div>
             {/* <a className="image-wrap">
@@ -110,7 +116,11 @@ const ProductActualList = ({
           <div className="product-grid__content">
             <div className="title">
               <h3>
-                <a>
+                <a onClick={(event) => {
+                  event.preventDefault();
+                  router.push(`/shop/product-fullwidth/${product._id}`)
+                }}
+                 >
                     <Box fontWeight="fontWeightBold" style={{ color : "#31de79"}}>
                     {product.productName}
                     </Box>

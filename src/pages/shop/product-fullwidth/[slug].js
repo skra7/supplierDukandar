@@ -1,181 +1,109 @@
 import Link from "next/link";
+import { useState, useEffect, Fragment } from 'react';
 import { Container, Row, Col } from "react-bootstrap";
 import { connect } from "react-redux";
 import { useToasts } from "react-toast-notifications";
 import { LayoutTwo } from "../../../components/Layout";
 import { getDiscountPrice } from "../../../lib/product";
 import { BreadcrumbOne } from "../../../components/Breadcrumb";
+import { useRouter } from 'next/router';
 import {
   ImageGalleryLeftThumb,
-  ProductDescription,
-  ProductDescriptionTab
+  ProductDescription
 } from "../../../components/ProductDetails";
-import { addToCart } from "../../../redux/actions/cartActions";
-import {
-  addToWishlist,
-  deleteFromWishlist
-} from "../../../redux/actions/wishlistActions";
-import {
-  addToCompare,
-  deleteFromCompare
-} from "../../../redux/actions/compareActions";
-import products from "../../../data/products.json";
+// import { Fragment } from "react-hooks-paginator";
 
 const ProductFullwidth = ({
-  product,
-  cartItems,
-  wishlistItems,
-  compareItems,
-  addToCart,
-  addToWishlist,
-  deleteFromWishlist,
-  addToCompare,
-  deleteFromCompare
+  
 }) => {
-  const { addToast } = useToasts();
-  const discountedPrice = getDiscountPrice(
-    product.price,
-    product.discount
-  ).toFixed(2);
-
-  const productPrice = product.price.toFixed(2);
-  const cartItem = cartItems.filter(
-    (cartItem) => cartItem.id === product.id
-  )[0];
-  const wishlistItem = wishlistItems.filter(
-    (wishlistItem) => wishlistItem.id === product.id
-  )[0];
-  const compareItem = compareItems.filter(
-    (compareItem) => compareItem.id === product.id
-  )[0];
+  
+  const router = useRouter();
+  const   { slug } = router.query;
+  const [ productData , setProductData] = useState([]);
+  const [category, setcategory] = useState("");
+  useEffect(() => {
+    async function getProduct (){
+      await fetch (
+       `http://3.7.238.54:4000/supplierProductbyProdId?id=${slug}`,
+       {
+         method: 'GET',
+         headers: new Headers({
+           "Content-Type": "application/json",
+           "Access-Control-Allow-Origin": "*"
+         })
+       }).then(r => r.json())
+       .then(r => {
+         console.log("Response is", r.data);
+         setProductData(r.data)
+         setcategory(r.data[0].categoryName);
+        })
+         
+       .catch(err =>{
+         console.log(err);
+       }
+     )
+   }
+   getProduct();
+   console.log("Product List is", productData);
+  }, []);
 
   return (
     <LayoutTwo>
       {/* breadcrumb */}
-      {/* <BreadcrumbOne
-        pageTitle={product.name}
-        backgroundImage="/assets/images/backgrounds/breadcrumb-bg-1.png"
-      >
-        <ul className="breadcrumb__list">
-          <li>
-            <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-              <a>Home</a>
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/shop/left-sidebar"
-              as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-            >
-              <a>Shop</a>
-            </Link>
-          </li>
-          <li>{product.name}</li>
-        </ul>
-      </BreadcrumbOne> */}
-
-      {/* product details */}
-      <div className="product-details space-mt--r100 space-mb--r100">
-        <Container className="wide">
-          <Row>
-            <Col lg={6} className="space-mb-mobile-only--50">
-              
-              <ImageGalleryLeftThumb
-                product={product}
-                wishlistItem={wishlistItem}
-                addToast={addToast}
-                addToWishlist={addToWishlist}
-                deleteFromWishlist={deleteFromWishlist}
-              />
-            </Col>
-
-            <Col lg={6}>
+               
               {/* product description */}
-              <ProductDescription
-                product={product}
-                productPrice={productPrice}
-                discountedPrice={discountedPrice}
-                cartItems={cartItems}
-                cartItem={cartItem}
-                wishlistItem={wishlistItem}
-                compareItem={compareItem}
-                addToast={addToast}
-                addToCart={addToCart}
-                addToWishlist={addToWishlist}
-                deleteFromWishlist={deleteFromWishlist}
-                addToCompare={addToCompare}
-                deleteFromCompare={deleteFromCompare}
-              />
-            </Col>
+              {
+              productData.map((product) => {
+                 const discountedPrice = parseFloat(product.sellingPrice).toFixed(2);
+                 const discount = (((parseFloat(product.originalPrice)-parseFloat(product.sellingPrice))/parseFloat(product.originalPrice))*100).toFixed(0);
+                 const productPrice = parseFloat(product.originalPrice).toFixed(2);
+                 return(
+                   <Fragment>
+                  <BreadcrumbOne
+                  page={'slug'}
+                  productName = {product.productName}
+                  />
+          
+                {/* product details */}
+                <div className="product-details space-mt--r100 space-mb--r100">
+                  <Container className="wide">
+                    
+                  <Row>
+                  <Col lg={6} className="space-mb-mobile-only--50">
+                    
+                    <ImageGalleryLeftThumb
+                      product={product}
+                      discount = {discount}
+                    />
+                  </Col>
+      
+                  <Col lg={6}>
+                   <ProductDescription
+                 product={product}
+                 productPrice={productPrice}
+                 discountedPrice={discountedPrice}
+                 discount = {discount}
+               />
+                </Col>
           </Row>
-          <Row>
-            <Col>
-              {/* product description tab */}
-              <ProductDescriptionTab product={product} />
-            </Col>
-          </Row>
-        </Container>
+          </Container>
       </div>
+      </Fragment>
+                 )
+              })
+            }
+              
+               
+                
+              
+              
+           
+         
+       
     </LayoutTwo>
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    cartItems: state.cartData,
-    wishlistItems: state.wishlistData,
-    compareItems: state.compareData
-  };
-};
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addToCart: (
-      item,
-      addToast,
-      quantityCount,
-      selectedProductColor,
-      selectedProductSize
-    ) => {
-      dispatch(
-        addToCart(
-          item,
-          addToast,
-          quantityCount,
-          selectedProductColor,
-          selectedProductSize
-        )
-      );
-    },
-    addToWishlist: (item, addToast) => {
-      dispatch(addToWishlist(item, addToast));
-    },
-    deleteFromWishlist: (item, addToast) => {
-      dispatch(deleteFromWishlist(item, addToast));
-    },
-    addToCompare: (item, addToast) => {
-      dispatch(addToCompare(item, addToast));
-    },
-    deleteFromCompare: (item, addToast) => {
-      dispatch(deleteFromCompare(item, addToast));
-    }
-  };
-};
+export default ProductFullwidth;
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductFullwidth);
-
-export async function getStaticPaths() {
-  // get the paths we want to pre render based on products
-  const paths = products.map((product) => ({
-    params: { slug: product.slug }
-  }));
-
-  return { paths, fallback: false };
-}
-
-export async function getStaticProps({ params }) {
-  // get product data based on slug
-  const product = products.filter((single) => single.slug === params.slug)[0];
-
-  return { props: { product } };
-}

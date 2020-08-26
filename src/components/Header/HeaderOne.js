@@ -190,11 +190,7 @@ const HeaderOne = ({ aboutOverlay }) => {
                     )}
                   </button>
                 </li>
-                <li>
-                 <a href = "mailto:contact@dukandar.io">
-                 <IoMdMail style={isTabletOrMobile ? {fill : "white"} : {fill : "black"}}/>
-                   </a> 
-                </li>
+                
                 {/* <li>
                   <button  onClick={() => setOffCanvasMobileMenuActive(true)}>
                     <IoIosMenu style={{ fill : "white"}}/>

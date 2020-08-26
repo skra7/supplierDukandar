@@ -65,9 +65,7 @@ const CategoryGridTwo = ({ spaceBottomClass, categoryData, productData }) => {
               </Typography></Card.Header>
               <Card.Body>
             <Card.Title>Product Count : {productData.filter(product => product.supplierCategoryId === category._id).length}</Card.Title>
-                <Card.Text>
-                  {category.description || `.`}
-                </Card.Text>
+                
                   <Accordion expanded={expanded === category._id} className={classes.root} onChange={handleChangePanel(category._id)}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}

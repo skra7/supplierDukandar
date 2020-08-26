@@ -81,20 +81,7 @@ const Home = () => {
   return (
     <LayoutOne aboutOverlay={true}>
       {/* hero slider */}
-      {/* <BreadcrumbOne
-        pageTitle={supplierData.businessName}
-        backgroundImage="/assets/images/backgrounds/cartbg.jpg"
-      >
-        <ul className="breadcrumb__list">
-          <li>
-            <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-              <a>Home</a>
-            </Link>
-          </li>
-
-         
-        </ul>
-      </BreadcrumbOne> */}
+      {/* <BreadcrumbOne /> */}
 
       {/* product tab */}
       <CategoryTab

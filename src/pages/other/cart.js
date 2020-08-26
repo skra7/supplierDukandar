@@ -12,8 +12,8 @@ const Cart = () => {
   const [cartData, setCartData] = useState([]);
   const [quantityCount] = useState(1);
   const { addToast } = useToasts();
-  const [show , setShow] = useState(false);
   let cartTotalPrice = 0;
+  const query = router.query;
 
   useEffect(() => {
     setInterval(() => {
@@ -49,15 +49,9 @@ const Cart = () => {
 
   
 
-  const handleClose = () => {
-    setShow(false);
-  }
 
   const [ show2, setshow2] = useState(false);
 
-  const handleModal = () => {
-    setshow2(true);
-  }
 
   
   const handleClose2 = () => {
@@ -77,75 +71,17 @@ const Cart = () => {
    
   }
 
-  async function proceedCheckout() {
-    setShow(true);
-    let user = localStorage.getItem("login");
-    let supplierId = localStorage.getItem("supplierId");
-    let mobileNumber = "+91" + localStorage.getItem("mobileNumber");
-    console.log("The mobile number is", mobileNumber);
-    let name = localStorage.getItem("username");
-    var productList = [];
-    cartData.map((product) => {
-      var name = product.productName;
-      var qty = product.quantity;
-      var unit = product.unit;
-      var price = parseFloat(product.sellingPrice).toFixed(2);
-      let jsonData = { name : name, qty : qty, unit : unit, price : price};
-      productList.push(jsonData);
-    });
-    if(!name) {
+  async function details() {
       router.push({pathname : '/other/login-register',
-    query : { name : 'fromCheckout'}
-    });
-    }
-   else {
-        const headers2 = {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*"
-        };
-        var data = {
-          userNumber : mobileNumber,
-          userName : name,
-          sellerId : supplierId,
-          productList : productList,
-          paidAmount : 0,
-          images : [],
-          description : "Purchased Online",
-          paymentMode : "Cash",
-          notes : "Online"
-        }
-        console.log("Data is : ", data);
-        var apiBaseUrl2 = "http://3.7.238.54:4000/v1/purchaseOrder";
-      //const proxyurl = "https://cors-anywhere.herokuapp.com/";
-         axios
-          .post(apiBaseUrl2,  data , {headers : headers2}, {validateStatus : false})
-          .then((response) => {
-            var cartItem = [];
-            cartItem = JSON.parse(localStorage.getItem("cartItem"))|| [];
-            cartData.map((cart) =>{
-              let index = cartItem.indexOf(cart);
-              cartItem.splice(index , 1);
-            });
-            localStorage.setItem("cartItem", JSON.stringify(cartItem));
-            setShow(false);
-            router.push('/other/showCheckout');
-            addToast("Cart Checkout Done", { appearance: "success", autoDismiss: true });
-          })
-          .catch((err) => {
-            setShow(false);
-            console.log(err);
-            addToast("Failed to Checkout", { appearance: "error", autoDismiss: true });
-          });
-    
-   }
+    query : { name : 'fromCheckout'}})
+   
   }
 
   return (
     <LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
-        pageTitle="Cart"
-        backgroundImage="/assets/images/backgrounds/cartbg.jpg"
+        page="cart"
       >
         <ul className="breadcrumb__list">
           <li>
@@ -265,14 +201,21 @@ const Cart = () => {
                 <div className="cart-coupon-area space-pt--30 space-pb--30">
                   <Row className="align-items-center">
                     <Col lg={7} className="space-mb-mobile-only--30">
-                      <div className="lezada-form coupon-form">
-                        {/* <form>
+                      {/* <div className="lezada-form coupon-form">
+                        <form>
                           <Row>
                             <Col md={7}>
-                              <input
-                                type="text"
-                                placeholder="Enter your coupon code"
-                              />
+                             <tr>
+                              <td>
+                                Name : {query.userName}
+                              </td>
+                              <td>
+                                Number : {query.userNumber}
+                              </td>
+                              <td>
+                                Address : {query.address}
+                              </td>
+                             </tr>
                             </Col>
                             <Col md={5}>
                               <button className="lezada-button lezada-button--medium">
@@ -280,8 +223,8 @@ const Cart = () => {
                               </button>
                             </Col>
                           </Row>
-                        </form> */}
-                      </div>
+                        </form>
+                      </div> */}
                     </Col>
                     <Col lg={5} className="text-left text-lg-right">
                       <button
@@ -319,7 +262,7 @@ const Cart = () => {
                       <button 
                       onClick={(event) => {
                         event.preventDefault();
-                        proceedCheckout();
+                        details();
                       }}
                       style = {{background : "green"}}
                       className="lezada-button lezada-button--medium">
@@ -353,16 +296,7 @@ const Cart = () => {
           )}
         </Container>
       </div>
-      <Modal
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
-      >
-        <Modal.Title><span>Please wait while we submit your order....</span>
-        <span><Spinner animation="border" variant="success" /></span>
-        </Modal.Title>
-      </Modal>
+     
       <Modal show={show2} onHide={handleClose2}>
         <Modal.Header closeButton>
           <Modal.Title color="secondary">Delete Products</Modal.Title>
