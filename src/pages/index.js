@@ -19,13 +19,7 @@ export default function Page() {
         window.open(string, "_self");
   }
   else{
-    if (!user) {
-      router.push('/other/login-register')
-    }
-    else { 
         router.push(`/${supplierId}`)
-      
-    }
   }
     
     

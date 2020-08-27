@@ -63,7 +63,8 @@ const LoginRegister = (props) => {
       var qty = product.quantity;
       var unit = product.unit;
       var price = parseFloat(product.sellingPrice).toFixed(2);
-      let jsonData = { id : product.supplierProductId, name : name, qty : qty, unit : unit, price : price};
+      var imageUrl = product.imageUrl;
+      let jsonData = { id : product.supplierProductId, name : name, qty : qty, unit : unit, price : price, imageUrl : imageUrl};
       productList.push(jsonData);
     });
         const headers2 = {
