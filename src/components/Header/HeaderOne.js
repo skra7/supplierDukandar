@@ -43,6 +43,7 @@ const HeaderOne = ({ aboutOverlay }) => {
 
   const [supplierNumber , setSupplierNumber] = React.useState("");
   const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
+  const [ supplierBusiness, setSupplierBusiness] = React.useState("");;
 
   useEffect(() => {
     const header = document.querySelector("header");
@@ -54,6 +55,8 @@ const HeaderOne = ({ aboutOverlay }) => {
       var cartSupplier = localStorage.getItem("supplierId") || "";
       var cartFinal =  cartItem.filter(cart => cart.supplierId === cartSupplier) ;
       setCartData(cartFinal);
+      var supplierData = JSON.parse(localStorage.getItem("supplierBusinessDetails"))
+      setSupplierBusiness(supplierData.businessName);
       setSupplierNumber(localStorage.getItem("supplierNumber") || "");
     }, 1000);
     if(localStorage.getItem("userId")) {
@@ -100,7 +103,7 @@ const HeaderOne = ({ aboutOverlay }) => {
              
               <Link href="/" as={process.env.PUBLIC_URL + "/"}>
                 <a>
-                 <h3 style={isTabletOrMobile ? {color : "white"} : {color : "black"}}><strong>DUKAN<span style={{ color : "#31de79"}}>DAR</span></strong></h3>
+                 <h4 style={isTabletOrMobile ? {color : "white"} : {color : "black"}}><strong>{supplierBusiness.split(" ")[0]} <span style={{ color : "#31de79"}}>{supplierBusiness.split(" ").slice(1)}</span></strong></h4>
                 </a>
               </Link>
             </div>

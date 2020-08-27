@@ -31,7 +31,7 @@ const Home = () => {
       .then(r => {
         setSupplierData(r.data.businessDetails);
         localStorage.setItem("supplierNumber",r.data.numberWithOutCountryCode);
-        localStorage.setItem("supplierBusinessDetails",  r.data.businessDetails)
+        localStorage.setItem("supplierBusinessDetails",  JSON.stringify(r.data.businessDetails))
       })
       .catch(err =>{
         console.log(err);
