@@ -57,6 +57,7 @@ const LoginRegister = (props) => {
   async function proceedCheckout() {
     setShow(true);
     let supplierId = localStorage.getItem("supplierId");
+    let number = "+91" + mobileNumber;
     var productList = [];
     cartData.map((product) => {
       var name = product.productName;
@@ -72,7 +73,7 @@ const LoginRegister = (props) => {
           "Access-Control-Allow-Origin": "*"
         };
         var data = {
-          userNumber : mobileNumber,
+          userNumber : number,
           userName : username,
           userAddress : fullAddress,
           sellerId : supplierId,
