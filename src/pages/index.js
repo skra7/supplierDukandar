@@ -11,6 +11,7 @@ export default function Page() {
   useEffect(() => {
     let user = localStorage.getItem("login");
     let supplierId = localStorage.getItem('supplierId');
+    let sellerInfo =  JSON.parse(localStorage.getItem("sellerInfo"));
     console.log("The user data is", user);
     console.log("The router pathname is", pathname);
   console.log("The router query name is", id);
@@ -19,7 +20,13 @@ export default function Page() {
         window.open(string, "_self");
   }
   else{
-        router.push(`/Home/${supplierId}`)
+    if(!sellerInfo.shopUrlString) {
+      router.push(`/Home/${supplierId}`)
+    }
+    else {
+      router.push(`/${sellerInfo.shopUrlString}`)
+    }
+        
   }
     
     
