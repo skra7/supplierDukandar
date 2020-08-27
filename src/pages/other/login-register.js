@@ -84,7 +84,6 @@ const LoginRegister = (props) => {
           paymentMode : "Cash",
           notes : "Online"
         }
-        console.log("Data is : ", data);
         var apiBaseUrl2 = "http://3.7.238.54:4000/v1/purchaseOrder";
       //const proxyurl = "https://cors-anywhere.herokuapp.com/";
          axios

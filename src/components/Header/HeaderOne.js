@@ -55,9 +55,17 @@ const HeaderOne = ({ aboutOverlay }) => {
       var cartSupplier = localStorage.getItem("supplierId") || "";
       var cartFinal =  cartItem.filter(cart => cart.supplierId === cartSupplier) ;
       setCartData(cartFinal);
-      var supplierData = JSON.parse(localStorage.getItem("supplierBusinessDetails"))
-      setSupplierBusiness(supplierData.businessName);
+      var sellerInfo = JSON.parse(localStorage.getItem("sellerInfo"));
+      if(sellerInfo) {
+        setSupplierBusiness(sellerInfo.shopName);
+        setSupplierNumber(sellerInfo.phoneNumber);
+      }
+      else{
+        var supplierData = JSON.parse(localStorage.getItem("supplierBusinessDetails"))
+        setSupplierBusiness(supplierData.businessName);
       setSupplierNumber(localStorage.getItem("supplierNumber") || "");
+      }
+      
     }, 1000);
     if(localStorage.getItem("userId")) {
       setLoginFlag(false);

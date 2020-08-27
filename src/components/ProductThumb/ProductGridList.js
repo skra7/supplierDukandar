@@ -47,7 +47,6 @@ const ProductGridList = ({
         "imageUrl" : product.imageUrl
       };
       cartItem.push(data);
-      console.log("The data going in is", data);
       localStorage.setItem('cartItem', JSON.stringify(cartItem));
       addToast("Added To Cart", { appearance: "success", autoDismiss: true });
     }

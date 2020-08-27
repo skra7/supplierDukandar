@@ -88,7 +88,6 @@ const CategoryGridTwo = ({ spaceBottomClass, categoryData, productData }) => {
         productData.map((product) => {
             if(product.supplierCategoryId === category._id)
             {
-                console.log("Product List is", product);
           const discountedPrice = parseFloat(product.sellingPrice).toFixed(2);
           const discount = (((parseFloat(product.originalPrice)-parseFloat(product.sellingPrice))/parseFloat(product.originalPrice))*100).toFixed(0);
           const productPrice = parseFloat(product.originalPrice).toFixed(2);

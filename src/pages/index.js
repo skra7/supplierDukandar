@@ -19,7 +19,7 @@ export default function Page() {
         window.open(string, "_self");
   }
   else{
-        router.push(`/${supplierId}`)
+        router.push(`/Home/${supplierId}`)
   }
     
     

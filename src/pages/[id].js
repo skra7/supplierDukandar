@@ -17,10 +17,9 @@ const Home = () => {
   const [productData , setProductData] = React.useState([]);
  React.useEffect(() => {
   console.log("The Id of supplier is", id);
-  var supplierId = localStorage.setItem("supplierId", id);
   async function getSupplierInfo() {
     await fetch (
-      `http://3.7.238.54:4000/supplierInfo?id=${id}`,
+      `http://3.7.238.54:4000/seller/sellerInfoByUrl?shopUrlString=${id}`,
       {
         method: 'GET',
         headers: new Headers({
@@ -29,9 +28,44 @@ const Home = () => {
         })
       }).then(r => r.json())
       .then(r => {
-        setSupplierData(r.data.businessDetails);
-        localStorage.setItem("supplierNumber",r.data.numberWithOutCountryCode);
-        localStorage.setItem("supplierBusinessDetails",  JSON.stringify(r.data.businessDetails))
+        async function getCategory (){
+          await fetch (
+           `http://3.7.238.54:4000/supplierCategorybyId?id=${r.data[0].userId}`,
+           {
+             method: 'GET',
+             headers: new Headers({
+               "Content-Type": "application/json",
+               "Access-Control-Allow-Origin": "*"
+             })
+           }).then(r => r.json())
+           .then(r => {
+             setCategoryData(r.data[0])})
+           .catch(err =>{
+             console.log(err);
+           }
+         )
+       }
+       getCategory();
+       async function getProduct (){
+         await fetch (
+          `http://3.7.238.54:4000/supplierProductByUser?id=${r.data[0].userId}`,
+          {
+            method: 'GET',
+            headers: new Headers({
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*"
+            })
+          }).then(r => r.json())
+          .then(r => {
+            setProductData(r.data[0])})
+          .catch(err =>{
+            console.log(err);
+          }
+        )
+      }
+      getProduct();
+        localStorage.setItem("sellerInfo", JSON.stringify(r.data[0]));
+        localStorage.setItem("supplierId", r.data[0].userId);
       })
       .catch(err =>{
         console.log(err);
@@ -39,42 +73,7 @@ const Home = () => {
     )
   }
   getSupplierInfo();
-  async function getCategory (){
-     await fetch (
-      `http://3.7.238.54:4000/supplierCategorybyId?id=${id}`,
-      {
-        method: 'GET',
-        headers: new Headers({
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*"
-        })
-      }).then(r => r.json())
-      .then(r => {
-        setCategoryData(r.data[0])})
-      .catch(err =>{
-        console.log(err);
-      }
-    )
-  }
-  getCategory();
-  async function getProduct (){
-    await fetch (
-     `http://3.7.238.54:4000/supplierProductByUser?id=${id}`,
-     {
-       method: 'GET',
-       headers: new Headers({
-         "Content-Type": "application/json",
-         "Access-Control-Allow-Origin": "*"
-       })
-     }).then(r => r.json())
-     .then(r => {
-       setProductData(r.data[0])})
-     .catch(err =>{
-       console.log(err);
-     }
-   )
- }
- getProduct();
+  
   
 },[]);
   

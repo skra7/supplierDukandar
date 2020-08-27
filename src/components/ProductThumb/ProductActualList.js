@@ -21,9 +21,7 @@ const ProductActualList = ({
   async function productCart(product) {
     var cartItem = [];
      cartItem = JSON.parse(localStorage.getItem("cartItem")) || [];
-    console.log("Product Id coming in is", product._id);
     let obj = cartItem.find(x => x.supplierProductId === product._id);
-    console.log("object coming in is", obj);
     if(obj) {
       let index = cartItem.indexOf(obj);
       cartItem[index].quantity = cartItem[index].quantity + 1;
@@ -45,7 +43,6 @@ const ProductActualList = ({
         "imageUrl" : product.imageUrl
       };
       cartItem.push(data);
-      console.log("The data going in is", data);
       localStorage.setItem('cartItem', JSON.stringify(cartItem));
       addToast("Added To Cart", { appearance: "success", autoDismiss: true });
     }
