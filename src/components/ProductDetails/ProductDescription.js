@@ -21,6 +21,7 @@ const ProductDescription = ({
   
   const router = useRouter(); 
   const { addToast } = useToasts();
+  const [index, setIndex] = useState(false);
   async function productCart(product) {
     var cartItem = [];
      cartItem = JSON.parse(localStorage.getItem("cartItem")) || [];
@@ -47,12 +48,22 @@ const ProductDescription = ({
       };
       cartItem.push(data);
       localStorage.setItem('cartItem', JSON.stringify(cartItem));
+      setIndex(true);
       addToast("Added To Cart", { appearance: "success", autoDismiss: true });
     }
    
   }
 
-      
+  const cartValue = (value, product, index) => {
+    var cartItem = [];
+    cartItem = JSON.parse(localStorage.getItem("cartItem"))|| [];
+    cartData[index].quantity = cartData[index].quantity + value;
+    let obj = cartItem.find(cart => cart.supplierProductId === cartData[index].supplierProductId);
+    let index2 = cartItem.indexOf(obj);
+    cartItem.splice(index2, 1, cartData[index]);
+    localStorage.setItem('cartItem', JSON.stringify(cartItem));
+    
+  }
           
           
   return (
@@ -105,7 +116,9 @@ const ProductDescription = ({
             
             
             <br />
-            <div className="">
+            
+
+                              <div className="">
             <Button
             onClick={(event) => {
               event.preventDefault();
@@ -116,6 +129,7 @@ const ProductDescription = ({
                 </Button>
               
             </div>
+            
          </div>
         
       {/* product modal */}

@@ -1,5 +1,5 @@
 import { Fragment, useState, useEffect } from "react";
-import { Col , Button} from "react-bootstrap";
+import { Col , Button, Badge} from "react-bootstrap";
 import Link from "next/link";
 import { IoIosHeartEmpty, IoIosShuffle, IoIosSearch, IoIosCart } from "react-icons/io";
 import { Tooltip } from "react-tippy";
@@ -56,8 +56,17 @@ const ProductActualList = ({
     <Fragment>
      <div className="single-cart-product" key={product._id}>
          <div className = "image">
+         <div className="image__floating-badges">
+           <Badge variant="info">
+              {discount && discount > 0 ? (
+                <span className="onsale">-{discount}%</span>
+              ) : (
+                ""
+              )}
+             </Badge>
+            </div>
             <img
-              src={product.imageUrl ? product.imageUrl : "/icon.jpg"}
+              src={product.imageUrl ? product.imageUrl.split(',')[0] : "/icon.jpg"}
               className="img-fluid"
               style={{width : "200px", height : "100px"}}
               alt={product.name}
@@ -66,6 +75,7 @@ const ProductActualList = ({
                 router.push(`/shop/product-fullwidth/${product._id}`)
               }}
             />
+            
             </div>
             {/* <a className="image-wrap">
               {product.imageUrl.length > 1 ? (
@@ -171,6 +181,7 @@ const ProductActualList = ({
             </div>
             <br />
             <div className="">
+             
             <Button
             onClick={(event) => {
               event.preventDefault();

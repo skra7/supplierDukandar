@@ -4,17 +4,13 @@ import Swiper from "react-id-swiper";
 import {
   IoIosArrowBack,
   IoIosArrowForward,
-  IoMdExpand,
-  IoIosHeartEmpty
+  IoMdExpand
 } from "react-icons/io";
 import { Tooltip } from "react-tippy";
 
 const ImageGalleryBottomThumb = ({
   product,
-  wishlistItem,
-  addToast,
-  addToWishlist,
-  deleteFromWishlist
+  discount
 }) => {
   const [gallerySwiper, getGallerySwiper] = useState(null);
   const [thumbnailSwiper, getThumbnailSwiper] = useState(null);
@@ -75,53 +71,26 @@ const ImageGalleryBottomThumb = ({
       <div className="product-large-image-wrapper space-mb--30">
         {/* floating badges */}
         <div className="product-large-image-wrapper__floating-badges">
-          {product.discount && product.discount > 0 ? (
-            <span className="onsale">-{product.discount}%</span>
+          {discount && discount > 0 ? (
+            <span className="onsale">-{discount}%</span>
           ) : (
             ""
           )}
-          {product.new ? <span className="hot">New</span> : ""}
-          {product.stock === 0 ? <span className="out-of-stock">out</span> : ""}
+          
         </div>
 
         {/* wishlist button */}
-        <div className="product-details-button-wrapper">
-          <Tooltip
-            title={
-              wishlistItem !== undefined
-                ? "Added to wishlist"
-                : "Add to wishlist"
-            }
-            position="left"
-            trigger="mouseenter"
-            animation="shift"
-            arrow={true}
-            duration={200}
-          >
-            <button
-              className=""
-              onClick={
-                wishlistItem !== undefined
-                  ? () => deleteFromWishlist(product, addToast)
-                  : () => addToWishlist(product, addToast)
-              }
-              className={`wishlist-icon ${
-                wishlistItem !== undefined ? "active" : ""
-              }`}
-            >
-              <IoIosHeartEmpty />
-            </button>
-          </Tooltip>
-        </div>
+       
+        
         <LightgalleryProvider>
           <Swiper {...gallerySwiperParams}>
-            {product.image &&
-              product.image.map((image, i) => {
+            {product.imageUrl &&
+              product.imageUrl.split(',').map((image, i) => {
                 return (
                   <div key={i}>
                     <LightgalleryItem
                       group="any"
-                      src={process.env.PUBLIC_URL + image}
+                      src={image}
                     >
                       <Tooltip
                         title="Click to enlarge"
@@ -138,7 +107,7 @@ const ImageGalleryBottomThumb = ({
                     </LightgalleryItem>
                     <div className="single-image">
                       <img
-                        src={process.env.PUBLIC_URL + image}
+                        src={image}
                         className="img-fluid"
                         alt=""
                       />
@@ -151,13 +120,13 @@ const ImageGalleryBottomThumb = ({
       </div>
       <div className="product-small-image-wrapper">
         <Swiper {...thumbnailSwiperParams}>
-          {product.image &&
-            product.image.map((image, i) => {
+          {product.imageUrl &&
+            product.imageUrl.split(',').map((image, i) => {
               return (
                 <div key={i}>
                   <div className="single-image">
                     <img
-                      src={process.env.PUBLIC_URL + image}
+                      src={image}
                       className="img-fluid"
                       alt=""
                     />

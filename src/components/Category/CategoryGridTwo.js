@@ -1,4 +1,5 @@
 import Link from "next/link";
+import {useEffect} from 'react';
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { useRouter } from 'next/router';
 import { useMediaQuery } from 'react-responsive';
@@ -29,12 +30,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CategoryGridTwo = ({ spaceBottomClass, categoryData, productData }) => {
+const CategoryGridTwo = ({ spaceBottomClass, categoryData, productData , firstCategory}) => {
   const router = useRouter();
   const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
 
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+
+ 
 
   const handleChangePanel = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -48,6 +51,7 @@ const CategoryGridTwo = ({ spaceBottomClass, categoryData, productData }) => {
     >
       <Container className="wide">
         <Row>
+        
           {categoryData.map((category, index) => {
             // const data = category["_id"];
            
@@ -58,15 +62,18 @@ const CategoryGridTwo = ({ spaceBottomClass, categoryData, productData }) => {
              <Col lg={3} md={6} >
              <div className="single-category single-category--one space-mb--5">
              <Card>
-              <Card.Header style={{backgroundColor : "#31de79"}}><Typography variant="h4" style={{color : "white"}}>
+              <Card.Header style={{backgroundColor : "#FBFBFF"}}><Typography variant="h4" >
             <Box fontWeight="fontWeightBold">
             {category.categoryName}
               </Box>
-              </Typography></Card.Header>
+              </Typography>
+              <span style={{ color : "#31de79"}}>{productData.filter(product => product.supplierCategoryId === category._id)? 
+              productData.filter(product => product.supplierCategoryId === category._id).length : 0} products listed</span>
+              </Card.Header>
               <Card.Body>
-            <Card.Title>Product Count : {productData.filter(product => product.supplierCategoryId === category._id).length}</Card.Title>
+            {/* <Card.Title>Product Count : {productData.filter(product => product.supplierCategoryId === category._id).length}</Card.Title> */}
                 
-                  <Accordion expanded={expanded === category._id} className={classes.root} onChange={handleChangePanel(category._id)}>
+                  <Accordion expanded={expanded === category._id || category._id === firstCategory} className={classes.root} onChange={handleChangePanel(category._id)}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1bh-content"

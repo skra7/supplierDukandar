@@ -34,7 +34,7 @@ const ProductFullwidth = ({
        }).then(r => r.json())
        .then(r => {
          console.log("Response is", r.data);
-         setProductData(r.data)
+         setProductData(r.data[0])
          setcategory(r.data[0].categoryName);
         })
          
@@ -52,19 +52,17 @@ const ProductFullwidth = ({
       {/* breadcrumb */}
                
               {/* product description */}
-              {
-              productData.map((product) => {
-                 const discountedPrice = parseFloat(product.sellingPrice).toFixed(2);
-                 const discount = (((parseFloat(product.originalPrice)-parseFloat(product.sellingPrice))/parseFloat(product.originalPrice))*100).toFixed(0);
-                 const productPrice = parseFloat(product.originalPrice).toFixed(2);
-                 return(
+              
+              
+                 
                    <Fragment>
                   <BreadcrumbOne
                   page={'slug'}
-                  productName = {product.productName}
+                  productName = {productData.productName}
                   />
           
                 {/* product details */}
+                
                 <div className="product-details space-mt--r100 space-mb--r100">
                   <Container className="wide">
                     
@@ -72,26 +70,25 @@ const ProductFullwidth = ({
                   <Col lg={6} className="space-mb-mobile-only--50">
                     
                     <ImageGalleryLeftThumb
-                      product={product}
-                      discount = {discount}
+                      product={productData}
+                      discount = {(((parseFloat(productData.originalPrice)-parseFloat(productData.sellingPrice))/parseFloat(productData.originalPrice))*100).toFixed(0)}
                     />
                   </Col>
       
                   <Col lg={6}>
                    <ProductDescription
-                 product={product}
-                 productPrice={productPrice}
-                 discountedPrice={discountedPrice}
-                 discount = {discount}
+                 product={productData}
+                 productPrice={parseFloat(productData.originalPrice).toFixed(2)}
+                 discountedPrice={parseFloat(productData.sellingPrice).toFixed(2)}
+                 discount = {(((parseFloat(productData.originalPrice)-parseFloat(productData.sellingPrice))/parseFloat(productData.originalPrice))*100).toFixed(0)}
                />
                 </Col>
           </Row>
           </Container>
       </div>
+      
       </Fragment>
-                 )
-              })
-            }
+                 
               
                
                 

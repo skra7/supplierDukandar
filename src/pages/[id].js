@@ -15,6 +15,7 @@ const Home = () => {
   const [categoryData , setCategoryData] = React.useState([]);
   const [ supplierData, setSupplierData] = React.useState([]);
   const [productData , setProductData] = React.useState([]);
+  const [firstCategory , setFirstCategory] = React.useState("");
  React.useEffect(() => {
   console.log("The Id of supplier is", id);
   async function getSupplierInfo() {
@@ -39,7 +40,10 @@ const Home = () => {
              })
            }).then(r => r.json())
            .then(r => {
-             setCategoryData(r.data[0])})
+             setCategoryData(r.data[0])
+             setFirstCategory(r.data[0][0]._id || "")
+            })
+             
            .catch(err =>{
              console.log(err);
            }
@@ -86,6 +90,7 @@ const Home = () => {
       <CategoryTab
       categoryData = {categoryData}
       productData = {productData}
+      firstCategory = {firstCategory}
       />
 
       {/* image cta */}
