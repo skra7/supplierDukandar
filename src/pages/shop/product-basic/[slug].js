@@ -96,21 +96,7 @@ const ProductBasic = ({
 
             <Col lg={6}>
               {/* product description */}
-              <ProductDescription
-                product={product}
-                productPrice={productPrice}
-                discountedPrice={discountedPrice}
-                cartItems={cartItems}
-                cartItem={cartItem}
-                wishlistItem={wishlistItem}
-                compareItem={compareItem}
-                addToast={addToast}
-                addToCart={addToCart}
-                addToWishlist={addToWishlist}
-                deleteFromWishlist={deleteFromWishlist}
-                addToCompare={addToCompare}
-                deleteFromCompare={deleteFromCompare}
-              />
+              
             </Col>
           </Row>
           <Row>
