@@ -14,7 +14,7 @@ const ProductDescription = ({
   discountedPrice,
   discount,
   productPrice,
-  cartData
+  filteredCart
 }) => {
 
   
@@ -119,11 +119,7 @@ const ProductDescription = ({
             
 
             <div className="">
-              
-             {cartData && cartData.find(cart => cart.supplierProductId === product._id) ?
-              cartData.filter(cart => cart.supplierProductId === product._id).map(filteredCart => {
-                
-                return(
+            {filteredCart.length > 0 ?
                   <table className="cart-table">
                   <td className="product-quantity">
                   <div className="cart-plus-minus">
@@ -131,7 +127,7 @@ const ProductDescription = ({
                     className="dec qtybutton"
                     onClick={(event) =>{
                       event.preventDefault();
-                      cartValue(-1, product , filteredCart);
+                      cartValue(-1, product , filteredCart[0]);
                     }
                       
                     }
@@ -141,14 +137,14 @@ const ProductDescription = ({
                   <input
                     className="cart-plus-minus-box"
                     type="text"
-                    value={filteredCart.quantity}
+                    value={filteredCart[0].quantity}
                     readOnly
                   />
                   <button
                     className="inc qtybutton"
                     onClick={() => {
                       event.preventDefault();
-                      cartValue(1, product , filteredCart);
+                      cartValue(1, product , filteredCart[0]);
                     }
                     }
                   
@@ -158,10 +154,6 @@ const ProductDescription = ({
                 </div>
                 </td>
                 </table>
-                )
-              }
-
-              )
               :
               <Button
               onClick={(event) => {
@@ -172,15 +164,6 @@ const ProductDescription = ({
                     <IoIosCart /> Add To Cart
                   </Button>
             }
-            {/* <Button
-            onClick={(event) => {
-              event.preventDefault();
-              productCart(product)}}
-              style={{backgroundColor : "#31de79"}}
-                >
-                  <IoIosCart /> Add To Cart
-                </Button> */}
-              
             </div>
          
             

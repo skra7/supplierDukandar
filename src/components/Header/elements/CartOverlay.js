@@ -64,7 +64,7 @@ const CartOverlay = ({ cartData, activeStatus, getActiveStatus}) => {
                             <a>
                               <img
                                 src={
-                                  product.imageUrl ? product.imageUrl : "/icon.jpg"
+                                  product.imageUrl ? product.imageUrl.split(',')[0] : "/icon.jpg"
                                 }
                                 className="img-fluid"
                                 style={{width : "200px", height : "100px"}}

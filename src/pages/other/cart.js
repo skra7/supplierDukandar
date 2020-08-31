@@ -125,7 +125,7 @@ const Cart = () => {
                               <a>
                                 <img
                                   src={
-                                    product.imageUrl ? product.imageUrl : "/icon.jpg"
+                                    product.imageUrl ? product.imageUrl.split(',')[0] : "/icon.jpg"
                                   }
                                   className="img-fluid"
                                   alt=""
@@ -139,7 +139,7 @@ const Cart = () => {
 
                           <td className="product-price">
                             <span className="price">&#8377;{discountedPrice}</span>
-                                <span className="unit"> per {product.unit}</span>
+                                <span className="unit">/ {product.unit}</span>
                           </td>
 
                           <td className="product-quantity">

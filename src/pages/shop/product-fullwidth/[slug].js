@@ -88,7 +88,7 @@ const ProductFullwidth = ({
                  productPrice={parseFloat(productData.originalPrice).toFixed(2)}
                  discountedPrice={parseFloat(productData.sellingPrice).toFixed(2)}
                  discount = {(((parseFloat(productData.originalPrice)-parseFloat(productData.sellingPrice))/parseFloat(productData.originalPrice))*100).toFixed(0)}
-                 cartData = {cartData}
+                 filteredCart = {cartData.filter(cart => cart.supplierProductId === productData._id)}
                />
                 </Col>
           </Row>

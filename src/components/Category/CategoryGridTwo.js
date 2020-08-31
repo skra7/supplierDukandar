@@ -98,13 +98,15 @@ const CategoryGridTwo = ({ spaceBottomClass, categoryData, productData , firstCa
           const discountedPrice = parseFloat(product.sellingPrice).toFixed(2);
           const discount = (((parseFloat(product.originalPrice)-parseFloat(product.sellingPrice))/parseFloat(product.originalPrice))*100).toFixed(0);
           const productPrice = parseFloat(product.originalPrice).toFixed(2);
+          const filteredCart = cartData.filter(cart => cart.supplierProductId === product._id);
+          
           return(
             <ProductActualList
             product = {product}
             discountedPrice = {discountedPrice}
             discount = {discount}
             productPrice = {productPrice}
-            cartData = {cartData}
+            filteredCart = {filteredCart}
             />
           )
           

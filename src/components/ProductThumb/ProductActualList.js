@@ -13,7 +13,7 @@ const ProductActualList = ({
   discountedPrice,
   discount,
   productPrice,
-  cartData
+  filteredCart
 }) => {
     
   const productData = product;
@@ -192,10 +192,8 @@ const ProductActualList = ({
             </div>
             <br />
             <div className="">
-             {cartData && cartData.find(cart => cart.supplierProductId === product._id) ?
-              cartData.filter(cart => cart.supplierProductId === product._id).map(filteredCart => {
-                
-                return(
+              
+             {filteredCart.length > 0 ?
                   <table className="cart-table">
                   <td className="product-quantity">
                   <div className="cart-plus-minus">
@@ -203,7 +201,7 @@ const ProductActualList = ({
                     className="dec qtybutton"
                     onClick={(event) =>{
                       event.preventDefault();
-                      cartValue(-1, product , filteredCart);
+                      cartValue(-1, product , filteredCart[0]);
                     }
                       
                     }
@@ -213,14 +211,14 @@ const ProductActualList = ({
                   <input
                     className="cart-plus-minus-box"
                     type="text"
-                    value={filteredCart.quantity}
+                    value={filteredCart[0].quantity}
                     readOnly
                   />
                   <button
                     className="inc qtybutton"
                     onClick={() => {
                       event.preventDefault();
-                      cartValue(1, product , filteredCart);
+                      cartValue(1, product , filteredCart[0]);
                     }
                     }
                   
@@ -230,10 +228,6 @@ const ProductActualList = ({
                 </div>
                 </td>
                 </table>
-                )
-              }
-
-              )
               :
               <Button
               onClick={(event) => {
