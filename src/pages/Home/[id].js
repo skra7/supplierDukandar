@@ -16,6 +16,7 @@ const Home = () => {
   const [ supplierData, setSupplierData] = React.useState([]);
   const [productData , setProductData] = React.useState([]);
   const [firstCategory , setFirstCategory] = React.useState("");
+  const [cartData , setCartData] = React.useState([]);
  React.useEffect(() => {
   console.log("The Id of supplier is", id);
 
@@ -35,6 +36,11 @@ const Home = () => {
           router.push(`/${r.data[0].shopUrlString}`)
         }
         else {
+          const interval = setInterval(() => {
+            var cartItem = JSON.parse(localStorage.getItem("cartItem")) || [];
+            var cartFinal =  cartItem.filter(cart => cart.supplierId === id) ;
+            setCartData(cartFinal);
+          },1000);
           localStorage.setItem("supplierId", id);
         }
       })
@@ -118,6 +124,7 @@ const Home = () => {
       firstCategory = {firstCategory}
       categoryData = {categoryData}
       productData = {productData}
+      cartData = {cartData}
       />
 
       {/* image cta */}
