@@ -91,21 +91,7 @@ const ProductSidebar = ({
 
             <Col lg={5}>
               {/* product description */}
-              <ProductDescription
-                product={product}
-                productPrice={productPrice}
-                discountedPrice={discountedPrice}
-                cartItems={cartItems}
-                cartItem={cartItem}
-                wishlistItem={wishlistItem}
-                compareItem={compareItem}
-                addToast={addToast}
-                addToCart={addToCart}
-                addToWishlist={addToWishlist}
-                deleteFromWishlist={deleteFromWishlist}
-                addToCompare={addToCompare}
-                deleteFromCompare={deleteFromCompare}
-              />
+              
             </Col>
             <Col lg={3}>{/* sidebar */}</Col>
           </Row>
