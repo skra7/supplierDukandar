@@ -12,7 +12,8 @@ const ProductActualList = ({
   product,
   discountedPrice,
   discount,
-  productPrice
+  productPrice,
+  cartData
 }) => {
     
   const productData = product;
@@ -49,11 +50,21 @@ const ProductActualList = ({
    
   }
 
+  const cartValue = (value, product, filteredCart) => {
+    var cartItem = [];
+    cartItem = JSON.parse(localStorage.getItem("cartItem"))|| [];
+    filteredCart.quantity = filteredCart.quantity + value;
+    let index2 = cartItem.indexOf(filteredCart);
+    cartItem.splice(index2, 1, filteredCart);
+    localStorage.setItem('cartItem', JSON.stringify(cartItem));
+    
+  }
       
           
           
   return (
     <Fragment>
+      
      <div className="single-cart-product" key={product._id}>
          <div className = "image">
          <div className="image__floating-badges">
@@ -181,15 +192,66 @@ const ProductActualList = ({
             </div>
             <br />
             <div className="">
-             
-            <Button
+             {cartData && cartData.find(cart => cart.supplierProductId === product._id) ?
+              cartData.filter(cart => cart.supplierProductId === product._id).map(filteredCart => {
+                
+                return(
+                  <table className="cart-table">
+                  <td className="product-quantity">
+                  <div className="cart-plus-minus">
+                  <button
+                    className="dec qtybutton"
+                    onClick={(event) =>{
+                      event.preventDefault();
+                      cartValue(-1, product , filteredCart);
+                    }
+                      
+                    }
+                  >
+                    -
+                  </button>
+                  <input
+                    className="cart-plus-minus-box"
+                    type="text"
+                    value={filteredCart.quantity}
+                    readOnly
+                  />
+                  <button
+                    className="inc qtybutton"
+                    onClick={() => {
+                      event.preventDefault();
+                      cartValue(1, product , filteredCart);
+                    }
+                    }
+                  
+                  >
+                    +
+                  </button>
+                </div>
+                </td>
+                </table>
+                )
+              }
+
+              )
+              :
+              <Button
+              onClick={(event) => {
+                event.preventDefault();
+                productCart(product)}}
+                style={{backgroundColor : "#31de79"}}
+                  >
+                    <IoIosCart /> Add To Cart
+                  </Button>
+            }
+            {/* <Button
             onClick={(event) => {
               event.preventDefault();
               productCart(product)}}
               style={{backgroundColor : "#31de79"}}
                 >
                   <IoIosCart /> Add To Cart
-                </Button>
+                </Button> */}
               
             </div>
          </div>

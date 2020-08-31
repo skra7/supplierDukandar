@@ -16,8 +16,9 @@ const Home = () => {
   const [ supplierData, setSupplierData] = React.useState([]);
   const [productData , setProductData] = React.useState([]);
   const [firstCategory , setFirstCategory] = React.useState("");
+  const [cartData, setCartData] = React.useState([]);
  React.useEffect(() => {
-  console.log("The Id of supplier is", id);
+  
   async function getSupplierInfo() {
     await fetch (
       `http://3.7.238.54:4000/seller/sellerInfoByUrl?shopUrlString=${id}`,
@@ -29,6 +30,11 @@ const Home = () => {
         })
       }).then(r => r.json())
       .then(r => {
+        const interval = setInterval(() => {
+          var cartItem = JSON.parse(localStorage.getItem("cartItem")) || [];
+          var cartFinal =  cartItem.filter(cart => cart.supplierId === r.data[0].userId) ;
+          setCartData(cartFinal);
+        },1000);
         async function getCategory (){
           await fetch (
            `http://3.7.238.54:4000/supplierCategorybyId?id=${r.data[0].userId}`,
@@ -70,6 +76,7 @@ const Home = () => {
       getProduct();
         localStorage.setItem("sellerInfo", JSON.stringify(r.data[0]));
         localStorage.setItem("supplierId", r.data[0].userId);
+       
       })
       .catch(err =>{
         console.log(err);
@@ -91,6 +98,7 @@ const Home = () => {
       categoryData = {categoryData}
       productData = {productData}
       firstCategory = {firstCategory}
+      cartData = {cartData}
       />
 
       {/* image cta */}

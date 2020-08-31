@@ -21,7 +21,15 @@ const ProductFullwidth = ({
   const   { slug } = router.query;
   const [ productData , setProductData] = useState([]);
   const [category, setcategory] = useState("");
+  const [cartData, setCartData] = useState([]);
   useEffect(() => {
+    setInterval(() => {
+      var cartItem = [];
+      cartItem = JSON.parse(localStorage.getItem("cartItem"))|| [];
+      var cartSupplier = localStorage.getItem("supplierId") || "";
+      var cartFinal =  cartItem.filter(cart => cart.supplierId === cartSupplier) ;
+      setCartData(cartFinal);
+    }, 1000);
     async function getProduct (){
       await fetch (
        `http://3.7.238.54:4000/supplierProductbyProdId?id=${slug}`,
@@ -44,7 +52,6 @@ const ProductFullwidth = ({
      )
    }
    getProduct();
-   console.log("Product List is", productData);
   }, []);
 
   return (
@@ -81,6 +88,7 @@ const ProductFullwidth = ({
                  productPrice={parseFloat(productData.originalPrice).toFixed(2)}
                  discountedPrice={parseFloat(productData.sellingPrice).toFixed(2)}
                  discount = {(((parseFloat(productData.originalPrice)-parseFloat(productData.sellingPrice))/parseFloat(productData.originalPrice))*100).toFixed(0)}
+                 cartData = {cartData}
                />
                 </Col>
           </Row>

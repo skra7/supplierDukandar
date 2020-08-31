@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CategoryGridTwo = ({ spaceBottomClass, categoryData, productData , firstCategory}) => {
+const CategoryGridTwo = ({ spaceBottomClass, categoryData, productData , firstCategory, cartData}) => {
   const router = useRouter();
   const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
 
@@ -104,6 +104,7 @@ const CategoryGridTwo = ({ spaceBottomClass, categoryData, productData , firstCa
             discountedPrice = {discountedPrice}
             discount = {discount}
             productPrice = {productPrice}
+            cartData = {cartData}
             />
           )
           

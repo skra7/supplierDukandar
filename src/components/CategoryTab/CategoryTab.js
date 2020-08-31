@@ -7,7 +7,7 @@ import {
 } from "../../components/Category";
 import categoryData from "../../data/categories/category-one.json";
 
-const CategoryTab = ({ categoryData, productData, firstCategory}) => {
+const CategoryTab = ({ categoryData, productData, firstCategory, cartData}) => {
   
   return (
     <div>
@@ -32,7 +32,7 @@ const CategoryTab = ({ categoryData, productData, firstCategory}) => {
           subtitle="This is where to find your satisfactory products"
         />
         {/* category grid */}
-        <CategoryGridTwo categoryData={categoryData} productData={productData} firstCategory={firstCategory} spaceBottomClass="space-mb--r100" />
+        <CategoryGridTwo categoryData={categoryData} productData={productData} firstCategory={firstCategory} cartData={cartData} spaceBottomClass="space-mb--r100" />
 
         {/* category slider */}
         {/* <SectionTitleThree
