@@ -36,7 +36,7 @@ const CategoryGridTwo = ({ spaceBottomClass, categoryData, productData , firstCa
 
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
-
+  let indexes = [];
  
 
   const handleChangePanel = (panel) => (event, isExpanded) => {
@@ -58,7 +58,7 @@ const CategoryGridTwo = ({ spaceBottomClass, categoryData, productData , firstCa
            productData.filter(product => product.supplierCategoryId === category._id).length : 0
             
            if(productOnline > 0) {
-            
+            indexes.push(index);
             return (
               
               <Col lg={3} md={6} >
@@ -75,7 +75,7 @@ const CategoryGridTwo = ({ spaceBottomClass, categoryData, productData , firstCa
                <Card.Body>
              {/* <Card.Title>Product Count : {productData.filter(product => product.supplierCategoryId === category._id).length}</Card.Title> */}
                  
-                   <Accordion expanded={expanded === category._id || category._id === firstCategory} className={classes.root} onChange={handleChangePanel(category._id)}>
+                   <Accordion expanded={expanded === category._id || category._id === categoryData[indexes[0]]._id} className={classes.root} onChange={handleChangePanel(category._id)}>
            <AccordionSummary
              expandIcon={<ExpandMoreIcon />}
              aria-controls="panel1bh-content"
