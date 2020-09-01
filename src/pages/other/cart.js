@@ -31,9 +31,16 @@ const Cart = () => {
     cartItem = JSON.parse(localStorage.getItem("cartItem"))|| [];
     cartData[index].quantity = cartData[index].quantity + value;
     let obj = cartItem.find(cart => cart.supplierProductId === cartData[index].supplierProductId);
-    let index2 = cartItem.indexOf(obj);
+    if(cartData[index].quantity <=0) {
+      let index2 = cartItem.indexOf(obj);
+    cartItem.splice(index2, 1);
+    localStorage.setItem('cartItem', JSON.stringify(cartItem));
+    } else {
+      let index2 = cartItem.indexOf(obj);
     cartItem.splice(index2, 1, cartData[index]);
     localStorage.setItem('cartItem', JSON.stringify(cartItem));
+    }
+    
     
   }
 

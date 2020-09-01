@@ -12,6 +12,7 @@ const ImageGalleryLeftThumb = ({
   const [gallerySwiper, getGallerySwiper] = useState(null);
   const [thumbnailSwiper, getThumbnailSwiper] = useState(null);
 
+  
   // effect for swiper slider synchronize
   useEffect(() => {
     if (
@@ -107,41 +108,41 @@ const ImageGalleryLeftThumb = ({
               )}
              
             </div>
-
+               
             {/* wishlist button */}
             <LightgalleryProvider>
               <Swiper {...gallerySwiperParams}>
                 {product.imageUrl &&
-                  product.imageUrl.split(',').map((image, i) => {
-                    return (
-                      <div key={i}>
-                        <LightgalleryItem
-                          group="any"
-                          src={image}
+                  product.imageUrl.split(',').map((image, i) => (
+                    <div key={i}>
+                    <LightgalleryItem
+                      group="any"
+                      src={image} 
+                      alt=""
+                    >
+                       <Tooltip
+                        title="Click to enlarge"
+                        position="left"
+                        trigger="mouseenter"
+                        animation="shift"
+                        arrow={true}
+                        duration={200}
                         >
-                          <Tooltip
-                            title="Click to enlarge"
-                            position="left"
-                            trigger="mouseenter"
-                            animation="shift"
-                            arrow={true}
-                            duration={200}
-                          >
-                            <button className="enlarge-icon">
-                              <IoMdExpand />
-                            </button>
-                          </Tooltip>
-                        </LightgalleryItem>
-                        <div className="single-image">
-                          <img
-                            src={image}
-                            className="img-fluid"
-                            alt=""
-                          />
-                        </div>
-                      </div>
-                    );
-                  })}
+                        <button className="enlarge-icon">
+                          <IoMdExpand />
+                        </button>
+                        </Tooltip>
+                    </LightgalleryItem>
+                    <div className="single-image">
+                      <img
+                        src={image}
+                        className="img-fluid"
+                        alt=""
+                      />
+                    </div>
+                  </div>
+                  )     
+              )}
               </Swiper>
             </LightgalleryProvider>
           </div>

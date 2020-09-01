@@ -54,9 +54,15 @@ const ProductActualList = ({
     var cartItem = [];
     cartItem = JSON.parse(localStorage.getItem("cartItem"))|| [];
     filteredCart.quantity = filteredCart.quantity + value;
-    let index2 = cartItem.indexOf(filteredCart);
+    if(filteredCart.quantity <= 0) {
+      let index2 = cartItem.indexOf(filteredCart);
+    cartItem.splice(index2, 1);
+    localStorage.setItem('cartItem', JSON.stringify(cartItem));
+    } else {
+      let index2 = cartItem.indexOf(filteredCart);
     cartItem.splice(index2, 1, filteredCart);
     localStorage.setItem('cartItem', JSON.stringify(cartItem));
+    }
     
   }
       
@@ -193,8 +199,8 @@ const ProductActualList = ({
             <br />
             <div className="">
               
-             {filteredCart.length > 0 ?
-                  <table className="cart-table">
+             {filteredCart.length > 0 && filteredCart[0].quantity > 0 ?
+                  <table style={{border : "none"}} className="cart-table">
                   <td className="product-quantity">
                   <div className="cart-plus-minus">
                   <button

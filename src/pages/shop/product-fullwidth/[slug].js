@@ -78,6 +78,7 @@ const ProductFullwidth = ({
                     
                     <ImageGalleryLeftThumb
                       product={productData}
+                      images = {productData.imageUrl ? productData.imageUrl.split(',') : []}
                       discount = {(((parseFloat(productData.originalPrice)-parseFloat(productData.sellingPrice))/parseFloat(productData.originalPrice))*100).toFixed(0)}
                     />
                   </Col>
