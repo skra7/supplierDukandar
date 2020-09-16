@@ -5,8 +5,8 @@ import { useToasts } from "react-toast-notifications";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { IoIosClose, IoMdCart } from "react-icons/io";
-import axios from 'axios';
-import { useRouter } from 'next/router';
+import axios from "axios";
+import { useRouter } from "next/router";
 const Cart = () => {
   const router = useRouter();
   const [cartData, setCartData] = useState([]);
@@ -18,78 +18,79 @@ const Cart = () => {
   useEffect(() => {
     setInterval(() => {
       var cartItem = [];
-      cartItem = JSON.parse(localStorage.getItem("cartItem"))|| [];
+      cartItem = JSON.parse(localStorage.getItem("cartItem")) || [];
       var cartSupplier = localStorage.getItem("supplierId") || "";
-      var cartFinal =  cartItem.filter(cart => cart.supplierId === cartSupplier) ;
+      var cartFinal = cartItem.filter(
+        (cart) => cart.supplierId === cartSupplier
+      );
       setCartData(cartFinal);
     }, 1000);
     document.querySelector("body").classList.remove("overflow-hidden");
-  },[]);
+  }, []);
 
   const cartValue = (value, product, index) => {
     var cartItem = [];
-    cartItem = JSON.parse(localStorage.getItem("cartItem"))|| [];
+    cartItem = JSON.parse(localStorage.getItem("cartItem")) || [];
     cartData[index].quantity = cartData[index].quantity + value;
-    let obj = cartItem.find(cart => cart.supplierProductId === cartData[index].supplierProductId);
-    if(cartData[index].quantity <=0) {
+    let obj = cartItem.find(
+      (cart) => cart.supplierProductId === cartData[index].supplierProductId
+    );
+    if (cartData[index].quantity <= 0) {
       let index2 = cartItem.indexOf(obj);
-    cartItem.splice(index2, 1);
-    localStorage.setItem('cartItem', JSON.stringify(cartItem));
+      cartItem.splice(index2, 1);
+      localStorage.setItem("cartItem", JSON.stringify(cartItem));
     } else {
       let index2 = cartItem.indexOf(obj);
-    cartItem.splice(index2, 1, cartData[index]);
-    localStorage.setItem('cartItem', JSON.stringify(cartItem));
+      cartItem.splice(index2, 1, cartData[index]);
+      localStorage.setItem("cartItem", JSON.stringify(cartItem));
     }
-    
-    
-  }
+  };
+
+  const handleModal = () => {
+    setshow2(true);
+  };
 
   const deleteFromCart = (product, index) => {
     var cartItem = [];
-    cartItem = JSON.parse(localStorage.getItem("cartItem"))|| [];
+    cartItem = JSON.parse(localStorage.getItem("cartItem")) || [];
     let index2 = cartItem.indexOf(cartData[index]);
-      cartItem.splice(index2,1);
-    localStorage.setItem('cartItem', JSON.stringify(cartItem));
+    cartItem.splice(index2, 1);
+    localStorage.setItem("cartItem", JSON.stringify(cartItem));
     addToast("Deleted from Cart", { appearance: "warning", autoDismiss: true });
-    
-  }
+  };
 
-  
+  const [show2, setshow2] = useState(false);
 
-
-  const [ show2, setshow2] = useState(false);
-
-
-  
   const handleClose2 = () => {
     setshow2(false);
-  }
-  
+  };
+
   const deleteAllFromCart = () => {
     var cartItem = [];
-    cartItem = JSON.parse(localStorage.getItem("cartItem"))|| [];
-    cartData.map((cart) =>{
+    cartItem = JSON.parse(localStorage.getItem("cartItem")) || [];
+    cartData.map((cart) => {
       let index = cartItem.indexOf(cart);
-      cartItem.splice(index , 1);
+      cartItem.splice(index, 1);
     });
-     localStorage.setItem("cartItem", JSON.stringify(cartItem));
-     setshow2(false);
-    addToast("Deleted everything from Cart", { appearance: "warning", autoDismiss: true });
-   
-  }
+    localStorage.setItem("cartItem", JSON.stringify(cartItem));
+    setshow2(false);
+    addToast("Deleted everything from Cart", {
+      appearance: "warning",
+      autoDismiss: true,
+    });
+  };
 
   async function details() {
-      router.push({pathname : '/other/login-register',
-    query : { name : 'fromCheckout'}})
-   
+    router.push({
+      pathname: "/other/login-register",
+      query: { name: "fromCheckout" },
+    });
   }
 
   return (
     <LayoutTwo>
       {/* breadcrumb */}
-      <BreadcrumbOne
-        page="cart"
-      >
+      <BreadcrumbOne page="cart">
         <ul className="breadcrumb__list">
           <li>
             <Link href="/" as={process.env.PUBLIC_URL + "/"}>
@@ -122,43 +123,47 @@ const Cart = () => {
                   </thead>
                   <tbody>
                     {cartData.map((product, i) => {
-                      const discountedPrice = parseFloat(product.sellingPrice).toFixed(2);
+                      const discountedPrice = parseFloat(
+                        product.sellingPrice
+                      ).toFixed(2);
 
-                      cartTotalPrice += discountedPrice * parseInt(product.quantity);
+                      cartTotalPrice +=
+                        discountedPrice * parseInt(product.quantity);
                       return (
                         <tr key={i}>
                           <td className="product-thumbnail">
-                            
-                              <a>
-                                <img
-                                  src={
-                                    product.imageUrl ? product.imageUrl.split(',')[0] : "/icon.jpg"
-                                  }
-                                  className="img-fluid"
-                                  alt=""
-                                  style={{width:"300px",height:"300px"}}
-                                />
-                              </a>
+                            <a>
+                              <img
+                                src={
+                                  product.imageUrl
+                                    ? product.imageUrl.split(",")[0]
+                                    : "/icon.jpg"
+                                }
+                                className="img-fluid"
+                                alt=""
+                                style={{ width: "300px", height: "300px" }}
+                              />
+                            </a>
                           </td>
                           <td className="product-name">
-                              <a>{product.productName}</a>
+                            <a>{product.productName}</a>
                           </td>
 
                           <td className="product-price">
-                            <span className="price">&#8377;{discountedPrice}</span>
-                                <span className="unit">/ {product.unit}</span>
+                            <span className="price">
+                              &#8377;{discountedPrice}
+                            </span>
+                            <span className="unit">/ {product.unit}</span>
                           </td>
 
                           <td className="product-quantity">
                             <div className="cart-plus-minus">
                               <button
                                 className="dec qtybutton"
-                                onClick={(event) =>{
+                                onClick={(event) => {
                                   event.preventDefault();
-                                  cartValue(-1, product , i);
-                                }
-                                  
-                                }
+                                  cartValue(-1, product, i);
+                                }}
                               >
                                 -
                               </button>
@@ -170,12 +175,10 @@ const Cart = () => {
                               />
                               <button
                                 className="inc qtybutton"
-                                onClick={() => {
+                                onClick={(event) => {
                                   event.preventDefault();
-                                  cartValue(1, product , i);
-                                }
-                                }
-                              
+                                  cartValue(1, product, i);
+                                }}
                               >
                                 +
                               </button>
@@ -184,7 +187,10 @@ const Cart = () => {
 
                           <td className="total-price">
                             <span className="price">
-                              &#8377;{(discountedPrice * parseInt(product.quantity)).toFixed(2)}
+                              &#8377;
+                              {(
+                                discountedPrice * parseInt(product.quantity)
+                              ).toFixed(2)}
                             </span>
                           </td>
 
@@ -192,7 +198,7 @@ const Cart = () => {
                             <button
                               onClick={(event) => {
                                 event.preventDefault();
-                                deleteFromCart(product , i);
+                                deleteFromCart(product, i);
                               }}
                             >
                               <IoIosClose />
@@ -236,7 +242,7 @@ const Cart = () => {
                     <Col lg={5} className="text-left text-lg-right">
                       <button
                         className="lezada-button lezada-button--medium"
-                        style = {{background : "red"}}
+                        style={{ background: "red" }}
                         onClick={(event) => {
                           event.preventDefault();
                           handleModal();
@@ -261,20 +267,23 @@ const Cart = () => {
                       </tr>
                       <tr>
                         <th>TOTAL</th>
-                        <td className="total">&#8377;{cartTotalPrice.toFixed(2)}</td>
+                        <td className="total">
+                          &#8377;{cartTotalPrice.toFixed(2)}
+                        </td>
                       </tr>
                     </tbody>
                   </table>
                   <div className="cart-calculation-button text-center">
-                      <button 
+                    <button
                       onClick={(event) => {
                         event.preventDefault();
                         details();
                       }}
-                      style = {{background : "green"}}
-                      className="lezada-button lezada-button--medium">
-                        proceed to checkout
-                      </button>
+                      style={{ background: "green" }}
+                      className="lezada-button lezada-button--medium"
+                    >
+                      proceed to checkout
+                    </button>
                   </div>
                 </div>
               </Col>
@@ -303,7 +312,7 @@ const Cart = () => {
           )}
         </Container>
       </div>
-     
+
       <Modal show={show2} onHide={handleClose2}>
         <Modal.Header closeButton>
           <Modal.Title color="secondary">Delete Products</Modal.Title>
@@ -313,9 +322,13 @@ const Cart = () => {
           <Button variant="secondary" onClick={handleClose2}>
             Close
           </Button>
-          <Button variant="primary" onClick={(event) => {
-            event.preventDefault();
-            deleteAllFromCart();}}>
+          <Button
+            variant="primary"
+            onClick={(event) => {
+              event.preventDefault();
+              deleteAllFromCart();
+            }}
+          >
             Confirm
           </Button>
         </Modal.Footer>
@@ -323,6 +336,5 @@ const Cart = () => {
     </LayoutTwo>
   );
 };
-
 
 export default Cart;
